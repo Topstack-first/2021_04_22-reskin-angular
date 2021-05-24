@@ -1,0 +1,60 @@
+:host {
+  display: block;
+}
+
+.container {
+  margin: auto;
+  background: rgba(219, 236, 255, 0.4);
+  border-radius: 30px;
+  width: calc(98% - 6px);
+  height: 81vh;
+  margin-top: .5%;
+  position: relative;
+  overflow-y: hidden;
+}
+
+.back-button {
+  top: -1%;
+  right: 20%;
+  position: relative;
+}
+
+.action-btn {
+  float: right;
+  margin-top: 20px;
+}
+
+.card {
+  position: relative;
+  width: 53%;
+  background: #FFFFFF;
+  border-radius: 24px;
+  margin: 4% auto 1%;
+  padding: 25px 60px 15px;
+  height: 63vh;
+  overflow: auto;
+}
+
+.mat-list-base {
+  margin: auto;
+  width: max-content;
+}
+
+.draft-header {
+  width: max-content;
+  margin: auto;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.draft-row {
+  padding: 16px;
+  cursor: pointer;
+}
+
+.draft-row:hover {
+  background-color: #f7f7f7;
+}
+
+.draft-row:active {
+  background-color: #e5e5e5;
+}

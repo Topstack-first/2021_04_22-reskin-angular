@@ -1,0 +1,56 @@
+<div class="modal-header" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px" fxLayout.xs="column">
+  <button mat-stroked-button color="primary" type="button" *ngxPermissionsOnly="COMPLETED"
+          (click)="openOrganizationEntity()">
+    Create Organization
+  </button>
+  <button mat-stroked-button color="primary" type="button" (click)="openUserEntity()">Create Expert</button>
+</div>
+
+<!--Profile Form-->
+<div class="row">
+  <form [formGroup]="profileForm" (ngSubmit)="submit()">
+    <div class="modal-inputs">
+
+      <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px" *ngFor="let i of list">
+        <div class="container" (click)="openImageCropper()" fxLayoutAlign="center center">
+          <img src="../../../../assets/login-user.svg" alt="picture" class="image" *ngIf="!hasProfilePicture">
+          <img [src]="profilePictureUrl | secure | async" alt="picture" class="image" *ngIf="hasProfilePicture">
+          <div class="middle">
+            <mat-icon>camera_alt</mat-icon>
+            <div>Change Picture</div>
+          </div>
+        </div>
+      </div>
+
+      <br>
+
+      <!--First Name-->
+      <mat-form-field fxFill>
+        <input matInput placeholder="First Name" formControlName="firstname">
+      </mat-form-field>
+
+      <!--Last Name-->
+      <mat-form-field fxFill>
+        <input matInput placeholder="Last Name" formControlName="lastname">
+      </mat-form-field>
+
+      <mat-form-field fxFill>
+        <input matInput placeholder="Telephone" formControlName="telephone">
+      </mat-form-field>
+
+    </div>
+
+    <!--Commands-->
+    <div class="modal-buttons" fxFill fxLayoutAlign="end center" fxLayoutGap="20px">
+      <!--Cancel Button-->
+      <button mat-stroked-button (click)="close()" type="button" id="cancel" *ngxPermissionsOnly="COMPLETED">
+        Cancel
+      </button>
+      <!--Save Button-->
+      <button mat-stroked-button class="add-btn" [class.spinner]="loading" type="submit">
+        Save
+      </button>
+    </div>
+
+  </form>
+</div>

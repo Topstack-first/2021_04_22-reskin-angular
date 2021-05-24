@@ -1,0 +1,15 @@
+.message-header {
+  background-color: #fbfbfb;
+  padding: 10px;
+}
+
+.message {
+  background-color: white;
+  padding: 10px;
+  border-top: #eeeeee solid thin;
+  cursor: pointer;
+}
+
+.message:hover {
+  background-color: #f7f7f7;
+}

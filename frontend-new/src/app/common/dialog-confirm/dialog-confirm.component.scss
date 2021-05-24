@@ -1,0 +1,13 @@
+.dialog-confirm-content {
+  padding: 10px;
+
+  & .actions {
+    border-top: 1px solid #ccc;
+    text-align: right;
+    padding: 10px 0;
+
+    & button:first-child {
+      margin-right: 10px;
+    }
+  }
+}

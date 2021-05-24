@@ -1,0 +1,450 @@
+<div class="grid-container ">
+  <div class="row">
+    <div class="leftcolumn" id="leftcolumn">
+      <div class="profile" id="profile">
+        <div class="profile-wrapper" fxLayout="row" fxLayoutGap.xs="5px" fxLayoutAlign.xs="start">
+          <div class="profile-pic">
+            <img class="image" [src]="profile?.profilepicture">
+          </div>
+
+          <div class="profile-info">
+            <div class="name">{{profile?.firstname}} {{profile?.lastname}}</div>
+            <div class="designation">Technician</div>
+          </div>
+
+        </div>
+
+        <div class="profile-status">
+          <div class="status-item">
+            <label class="jobs">Jobs</label>
+            <label class="count">4</label>
+          </div>
+          <div class="project-item">
+            <label class="project">Projects</label>
+            <label class="count">7</label>
+          </div>
+
+          <div class="tools-item">
+            <label class="tools">Tools and Insights</label>
+            <label class="count">9</label>
+          </div>
+
+          <div class="try-premium">Try Premium Free for 1 Month</div>
+        </div>
+
+        <div class="saved-item"> <span>Saved Item</span></div>
+
+        <div class="page-info">
+          <div class="notification-item">
+            <label class="notification">Page Notification</label>
+            <label class="count">7</label>
+          </div>
+
+          <div class="visitor-item">
+            <label class="visitor">Page Visitor</label>
+            <label class="count">9</label>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="activities" class="activity">
+        <div class="activity-wrapper">
+
+          <div class="activity-header">
+            <div class="clock-wrapper">
+              <img class="clock-icon" src="assets/clock.svg">
+            </div>
+            <span class="activity-label">My Activities</span>
+          </div>
+
+          <!-- <div fxFlexAlign="center">
+            <button mat-icon-button (click)="getLeaderboard()">
+              <mat-icon class="icon">cached</mat-icon>
+            </button>
+            <span class="text" style="margin: 0 5px">Show by</span>
+            <button mat-icon-button class="text" [matMenuTriggerFor]="menu2">
+              <mat-icon class="icon">more_vert</mat-icon>
+            </button>
+            <mat-menu #menu2="matMenu">
+              <button mat-menu-item>
+                <span>guild</span>
+              </button>
+              <button mat-menu-item>
+                <span>achievements</span>
+              </button>
+              <button mat-menu-item>
+                <span>skills</span>
+              </button>
+            </mat-menu>
+          </div> -->
+
+
+
+          <div class="achievement-wrapper">
+            <!--  <div fxFlex="50">
+            <div *ngFor="let skill of skills" style="font-size: 14px;color: #39527b;font-weight: 300">{{skill.skill}}
+            </div>
+          </div> -->
+
+            <span class="label">Achievements</span>
+            <div *ngFor="let achievement of achievements">
+              <div class="date">{{achievement.ts}}</div>
+              <div class="text">{{achievement.txtbody}}</div>
+              <br>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="left-divider"></div>
+
+    <div class="mid-column" id="mid-column">
+      <div id="newsfeed">
+        <!-- <div class="widget-header" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+          <h3>News Feed</h3>
+          <div fxLayoutAlign="center center" fxLayout="row" fxLayoutGap="20px">
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <h3>{{newsfeedCounts?.new}}</h3>
+              <p style="color:#fec952;font-size: 14px">Today</p>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <h3>{{newsfeedCounts?.older}}</h3>
+              <p style="color:#6bc84c;font-size: 14px ">Older</p>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <h3>{{newsfeedCounts?.read}}</h3>
+              <p style="color:#ef7073;font-size: 14px ">Read</p>
+            </div>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="center center">
+            <button mat-icon-button (click)="getNewsfeed()">
+              <mat-icon class="icon">cached</mat-icon>
+            </button> -->
+        <!--            <span class="text" style="margin: 0 5px">Filters</span>-->
+        <!-- <button mat-icon-button class="text" [matMenuTriggerFor]="menu4">
+              <mat-icon class="icon">more_vert</mat-icon>
+            </button>
+            <mat-menu #menu4="matMenu">
+              <button mat-menu-item>
+                <span>Option 1</span>
+              </button>
+              <button mat-menu-item>
+                <span>Option 2</span>
+              </button>
+              <button mat-menu-item>
+                <span>Option 3</span>
+              </button>
+            </mat-menu>
+          </div>
+        </div> -->
+
+
+        <div class="newsfeed-card">
+
+          <div class="newpost-card">
+            <div class="start-test">
+              <span>Create Content</span>
+            </div>
+
+            <div class="action">
+              <button class="article-button" (click)="createArticle()">Article</button>
+            </div>
+
+            <div class="action">
+              <button class="contest-button" (click)="createContest()">Contest</button>
+            </div>
+
+            <div class="action">
+              <button class="project-button">Project</button>
+            </div>
+          </div>
+
+          <div *ngFor="let newsfeed of newsfeedHomepage" class="newsfeed">
+
+            <div class="like-status">
+              <span class="name">Gus Fring</span>
+              <span class="like">Likes this</span>
+
+              <button mat-icon-button class="post-settings">
+                <mat-icon svgIcon="postSettings"></mat-icon>
+              </button>
+            </div>
+
+            <!-- <div class="newsfeed-header">
+              <h3>{{newsfeed.headerline}}</h3>
+              <button mat-icon-button *ngIf="newsfeed.entity.editable"
+                (click)="readArticleContest(newsfeed.objectid,newsfeed.type)">
+                <mat-icon class="edit-button">edit</mat-icon>
+              </button>
+            </div> -->
+
+            <div class="post-image">
+              <img [src]="getUrl(newsfeed.entity.profilepicture) | secure | async" alt="photo"
+                *ngIf="newsfeed.entity?.profilepicture">
+
+              <div class="name">{{newsfeed?.entity.names}}</div>
+              <div class="summary">{{newsfeed?.entity.summary}}</div>
+            </div>
+
+            <div *ngIf="newsfeed.mainimage" (click)="readArticleContest(newsfeed.objectid,newsfeed.type)">
+              <quill-view-html [content]="newsfeed.showtext" class="custom-pointer-cursor"
+                (click)="readArticleContest(newsfeed.objectid,newsfeed.type)"></quill-view-html>
+            </div>
+
+            <div *ngIf="!newsfeed.mainimage" (click)="readArticleContest(newsfeed.objectid,newsfeed.type)">
+              <quill-view-html [content]="newsfeed.showtext" class="custom-pointer-cursor"
+                (click)="readArticleContest(newsfeed.objectid,newsfeed.type)"></quill-view-html>
+            </div>
+
+
+            <div *ngIf="newsfeed.mainimage" class="content-image"
+              (click)="readArticleContest(newsfeed.objectid,newsfeed.type)">
+              <img [src]="getUrl(newsfeed.mainimage) | secure | async" alt="content" id="content">
+            </div>
+
+            <div class="public-action">
+              <img src="/assets/thumb.svg" alt="content" id="content">
+              <img src="/assets/clap.svg" alt="content" id="content">
+              <img src="/assets/heart.svg" alt="content" id="content">
+              {{newsfeed?.entity.likescount}}
+            </div>
+
+
+
+
+            <!--<mat-hint class="comments" [matMenuTriggerFor]="readComments" (click)="getComments(newsfeed?.objectid)">
+                {{newsfeed?.entity.commentcount}} Comments
+              </mat-hint> -->
+
+            <div class="newsfeed-footer" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+
+              <div class="like">
+                <button mat-icon-button matTooltip="Like" [matTooltip]="newsfeed?.entity.is_liked? 'Unlike': 'Like'"
+                  (click)="likeUnlike(newsfeed)">
+                  <mat-icon class="edit-button" svgIcon="like" [style.color]="newsfeed?.entity.is_liked? '#3c9394': ''">
+                  </mat-icon>
+                </button>
+                <mat-hint>Likes</mat-hint>
+              </div>
+
+              <div class="comment">
+                <button mat-icon-button matTooltip="Comment" [matMenuTriggerFor]="postComment">
+                  <mat-icon class="edit-button" svgIcon="comment">comment</mat-icon>
+                </button>
+                <mat-hint>Comment</mat-hint>
+              </div>
+
+              <div class="shre">
+                <button mat-icon-button matTooltip="Share" [matMenuTriggerFor]="shareMenu">
+                  <mat-icon class="edit-button" svgIcon="share"></mat-icon>
+                </button>
+                <mat-hint>Share</mat-hint>
+              </div>
+
+              <div>
+                <button mat-icon-button matTooltip="Send" [matMenuTriggerFor]="sendMenu">
+                  <mat-icon class="edit-button" svgIcon="send"></mat-icon>
+                </button>
+                <mat-hint>Send</mat-hint>
+              </div>
+
+            </div>
+
+            <mat-menu #readComments="matMenu" class="custom-mat-menu">
+              <div>
+                <div *ngFor="let comment of comments" class="comment-unit">
+                  <mat-hint>{{comment.ts | date: 'medium'}}</mat-hint>
+                  <div>{{comment.comment}}</div>
+                </div>
+              </div>
+            </mat-menu>
+
+            <mat-menu #postComment="matMenu" class="custom-mat-menu">
+              <form [formGroup]="commentForm" style="padding: 0 20px" fxLayout="column"
+                (click)="$event.stopPropagation()" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <mat-form-field class="custom-form-field" appearance="outline">
+                  <mat-label>Comment</mat-label>
+                  <textarea matInput type="text" placeholder="Write a comment" formControlName="comment"></textarea>
+                </mat-form-field>
+
+                <button type="button" mat-stroked-button (click)="comment(newsfeed?.objectId)">Comment</button>
+              </form>
+            </mat-menu>
+
+            <mat-menu #shareMenu="matMenu" class="custom-mat-menu">
+              <form [formGroup]="shareForm" style="padding: 0 20px" (click)="$event.stopPropagation()">
+                <p>Share to:</p>
+                <div fxLayout="column" fxLayoutAlign="start center">
+                  <ng-select [items]="myNetwork" class="custom-ng-select" appearance="outline" appendTo="body"
+                    bindValue="uuid" bindLabel="name" [clearable]="true" formControlName="mynetwork"
+                    [notFoundText]="'No Results'" typeToSearchText="Search" placeholder="My Network">
+                  </ng-select>
+
+                  <button type="button" mat-stroked-button (click)="share()">Share</button>
+                </div>
+              </form>
+            </mat-menu>
+
+            <mat-menu #sendMenu="matMenu" class="custom-mat-menu">
+              <form [formGroup]="sendForm" style="padding: 0 20px" (click)="$event.stopPropagation()">
+                <p>Send to:</p>
+                <div fxLayout="column" fxLayoutAlign="start center">
+                  <ng-select [items]="myNetwork" class="custom-ng-select" appearance="outline" appendTo="body"
+                    bindValue="uuid" bindLabel="name" [clearable]="true" formControlName="userid"
+                    [notFoundText]="'No Results'" typeToSearchText="Search" placeholder="Person">
+                  </ng-select>
+
+                  <button type="button" mat-stroked-button (click)="send()">Send</button>
+                </div>
+              </form>
+            </mat-menu>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="rightcolumn" id="rightcolumn">
+
+      <div id="leaderboard" class="leaderboard">
+
+        <div class="laderboard-header">
+          <div class="tropy-wrapper">
+            <img class="trophy-icon" src="assets/trophy.svg">
+          </div>
+          <span class="trophy-label">Leader Board</span>
+        </div>
+
+        <!-- <div fxFlexAlign="center">
+          <button mat-icon-button (click)="getLeaderboard()">
+            <mat-icon class="icon">cached</mat-icon>
+          </button>
+          <span class="text" style="margin: 0 5px">Show by</span>
+          <button mat-icon-button class="text" [matMenuTriggerFor]="menu2">
+            <mat-icon class="icon">more_vert</mat-icon>
+          </button>
+          <mat-menu #menu2="matMenu">
+            <button mat-menu-item>
+              <span>guild</span>
+            </button>
+            <button mat-menu-item>
+              <span>achievements</span>
+            </button>
+            <button mat-menu-item>
+              <span>skills</span>
+            </button>
+          </mat-menu>
+        </div> -->
+
+        <div class="leaderboard-content">
+          <div *ngFor="let feed of leaderboard" class="feed">
+            <img class="avatar" src="/assets/eclipse-image.svg">
+            <h6 class="name">{{feed.name}}</h6>
+            <p class="text">{{feed.showtext}}</p>
+            <button class="follow-button">follow</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="challengesboard" id="challengesboard">
+
+        <div class="challengeboard-header">
+          <div class="file-wrapper">
+            <img class="file-icon" src="assets/file.svg">
+          </div>
+          <span class="label">Challenges Board</span>
+
+          <button class="filter-button" mat-icon-button>
+            1
+            <mat-icon svgIcon="filter"></mat-icon>
+          </button>
+        </div>
+
+        <!--   <div fxFlexAlign="center">
+          <button mat-icon-button (click)="getChallenges()">
+            <mat-icon class="icon">cached</mat-icon>
+          </button>
+          <span class="text" style="margin: 0 5px">Filters</span>
+          <button mat-icon-button class="text" [matMenuTriggerFor]="menu3">
+            <mat-icon class="icon">more_vert</mat-icon>
+          </button>
+          <mat-menu #menu3="matMenu">
+            <button mat-menu-item>
+              <span>Popup filter 1</span>
+            </button>
+            <button mat-menu-item>
+              <span>Popup filter 2</span>
+            </button>
+            <button mat-menu-item>
+              <span>Popup filter 3</span>
+            </button>
+          </mat-menu>
+        </div> -->
+
+        <div class="board-status">
+
+          <span class="open-count">{{challengesCounts?.openprojects}}</span>
+          <span class="open-projects">Open Projects</span>
+
+          <div class="active-project">
+            <h3 class="count">{{challengesCounts?.activeprojects}}</h3>
+            <span class="project-label">Active</span>
+          </div>
+
+          <div class="in-progress">
+            <h3 class="count">23</h3>
+            <span class="project-label">In progress</span>
+          </div>
+
+          <div class="complete">
+            <h3 class="count">{{challengesCounts?.completedprojects}}</h3>
+            <span class="project-label">Complete</span>
+          </div>
+
+          <button mat-icon-button>
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+        </div>
+
+        <mat-list>
+          <mat-list-item *ngFor="let project of projects">
+            <mat-icon mat-list-icon svgIcon="folder"></mat-icon>
+            <div mat-line>{{project.ts}}</div>
+            <div mat-line>{{project.showtext}}</div>
+            <button mat-icon-button>
+              <mat-icon>chevron_right</mat-icon>
+            </button>
+          </mat-list-item>
+
+        </mat-list>
+
+      </div>
+
+      <div class="card" id="createcontent">
+        <div class="widget-header" fxLayout="row">
+          <h3>Create Content</h3>
+        </div>
+        <div fxLayoutAlign="center center" fxLayout="row" fxLayoutGap="20px" style="padding: 10px" class="widget">
+          <button fxFlex="15" fxFlex.xs="30" mat-stroked-button color="primary" (click)="createArticle()"
+            *ngIf="articleButton">
+            Article
+          </button>
+          <button fxFlex="15" fxFlex.xs="30" mat-stroked-button color="accent" *ngIf="contestButton"
+            (click)="createContest()">
+            Contest
+          </button>
+          <button fxFlex="15" fxFlex.xs="30" mat-stroked-button color="warn" *ngIf="projectButton">Project</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="footer">
+  <div class="text">A-GORA GRAPH LTD © Copywrite 2018</div>
+</div> -->

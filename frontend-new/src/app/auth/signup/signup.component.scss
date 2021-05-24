@@ -1,0 +1,236 @@
+.login {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #313f53;
+}
+
+.login * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.login-container {
+  width: auto;
+  height: auto;
+  position: relative;
+  background-color: white;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.login .company-name-login {
+  overflow: hidden;
+  text-align: center;
+  padding: 30px 20px;
+  position: relative;
+}
+
+.login .company-name-login:before {
+  content: "";
+  width: 80%;
+  height: 2px;
+  background-color: #7d85a0;
+  position: absolute;
+  left: 10%;
+  bottom: 20px;
+}
+
+.company-name-login img {
+  width: 35%;
+  margin: 0 auto 20px auto;
+}
+
+.login-body {
+  position: relative;
+  width: 100%;
+}
+
+.login .login-icons {
+  width: 100%;
+  height: auto;
+  padding: 30px 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.login .login-forms {
+  width: 100%;
+  padding: 5px 30px 20px 30px;
+  position: relative;
+}
+
+.login-forms > div {
+  width: 320px;
+  padding: 8px 0;
+  border-radius: 10px;
+  //margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.login-forms .input-icon {
+  padding: 0 15PX;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.login-forms .input-icon img {
+  width: 25px;
+}
+
+.login-forms .input-form {
+  width: 100%;
+  padding: 0 15px;
+}
+
+.login-forms .input-form input {
+  height: 100%;
+  width: 100%;
+  color: rgb(125, 133, 160);
+}
+
+::placeholder {
+  color: rgb(167, 177, 209);
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 50px white inset; /* Change the color to your own background color */
+  -webkit-text-fill-color: rgb(125, 133, 160);
+}
+
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 50px white inset; /*your box-shadow*/
+  -webkit-text-fill-color: rgb(125, 133, 160);
+}
+
+.login-button {
+  width: 100%;
+  position: relative;
+}
+
+.login-button button {
+  width: 80%;
+  height: 100%;
+  color: white;
+  background-color: #0747a6;
+  border: unset;
+  border-radius: 5px;
+  padding: 10px 0;
+  font-size: 24px;
+  font-weight: 100;
+  position: relative;
+  left: 10%;
+  margin-bottom: 30px;
+}
+
+
+@media screen and (max-width: 480px) {
+  .login {
+    justify-content: flex-start;
+    align-items: center;
+    background-color: white;
+  }
+
+  form {
+    width: 100%;
+  }
+
+  .login-container {
+    width: 100%;
+    border-radius: unset;
+  }
+
+  .welcome-login,
+  .login-button {
+    width: 100%;
+    left: 0;
+  }
+
+  .welcome-login {
+    margin-bottom: 30px;
+  }
+
+  .login .login-button {
+    width: 60%;
+    margin: 0 auto;
+    border-radius: 10px;
+  }
+
+  .login-button button {
+    padding: 10px 0;
+  }
+
+  .login-icons {
+    display: none;
+  }
+
+  .login .login-forms {
+    padding: 0 20px;
+  }
+
+  .login-forms > div {
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  .login-forms .input-icon {
+    padding: 0 10PX;
+  }
+
+  .login-forms .input-icon img {
+    width: 20px;
+  }
+
+  .login-forms .input-form {
+    width: 100%;
+    padding: 0 15px;
+  }
+
+  .login .it-works-link a {
+    color: rgb(125, 133, 160);
+  }
+}
+
+.error-field {
+  background: #ffe4d0;
+  border: solid #b98585 1px !important;
+  border-radius: 4px !important;
+  color: darkred;
+  font-size: 10pt;
+  width: 95% !important;
+  margin: -19px 8px 0px 8px !important;
+  text-align: center;
+  padding: 0px !important;
+  display: block !important;
+  /* visibility: hidden;*/
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.signup {
+  color: #20558c;
+  text-align: center;
+  margin: 15px 0;
+
+  & a {
+    color: #20558c;
+    font-weight: bold;
+    text-decoration: none;
+  }
+}
+
+h1 {
+  font-size: 40px;
+  opacity: 0.7;
+}

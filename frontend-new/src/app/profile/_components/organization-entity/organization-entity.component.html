@@ -1,0 +1,149 @@
+<div style="text-align: end">
+  <button mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content>
+  <form [formGroup]="form" (ngSubmit)="submit()" autocomplete="off">
+    <mat-horizontal-stepper #stepper linear>
+      <mat-step label="Type" [completed]="form.controls['orgtype'].value">
+
+        <mat-radio-group style="margin-top: 10px" aria-label="Select an option" formControlName="orgtype"
+                         fxLayout="column" fxLayoutGap="10px">
+          <mat-radio-button *ngFor="let type of orgTypes" [value]="type.orgtype">{{type.orgtype}}</mat-radio-button>
+        </mat-radio-group>
+
+        <div style="text-align: end">
+          <button mat-button matStepperNext type="button">Next</button>
+        </div>
+
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Identity</ng-template>
+        <div fxLayout="column">
+          <mat-form-field fxFlex>
+            <mat-label>Name</mat-label>
+            <input matInput placeholder="Organization Name" formControlName="orgname">
+            <mat-error *ngIf="form.controls['orgname'].hasError('serverError')">
+              {{form.controls['orgname'].getError('serverError')}}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field fxFlex>
+            <mat-label>Website</mat-label>
+            <input matInput placeholder="Website" formControlName="website">
+            <mat-error *ngIf="form.controls['website'].hasError('serverError')">
+              {{form.controls['website'].getError('serverError')}}
+            </mat-error>
+          </mat-form-field>
+
+          <button (click)="addPublicUrl()" type="button" fxFlex mat-stroked-button>
+            <mat-icon>add</mat-icon>
+            Public Url
+          </button>
+
+          <div formArrayName="publicurls">
+            <div *ngFor="let publicurl of form.get('publicurls')['controls']; let i=index">
+              <div [formGroupName]="i" fxLayout="row" fxLayout.xs="column" fxLayoutGap="20px" style="margin: 20px 0">
+
+                <!--Name-->
+                <mat-form-field fxFlex>
+                  <mat-label>Name</mat-label>
+                  <input type="text" matInput formControlName="name">
+                </mat-form-field>
+
+                <!--Date-->
+                <mat-form-field fxFlex>
+                  <mat-label>Url</mat-label>
+                  <input type="text" matInput formControlName="url">
+                </mat-form-field>
+
+                <button (click)="removePublicUrl(i)" mat-icon-button
+                        [disabled]="form.get('publicurls')['controls'].length == 1">
+                  <mat-icon [class.delete-button]="form.get('publicurls')['controls'].length !== 1">delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="text-align: center">
+          <button mat-flat-button color="primary" (click)="input.click()" type="button" [class.spinner]="loading">
+            <mat-icon>image</mat-icon>
+            Upload Logo
+          </button>
+          <input #input style="display: none" type="file" accept="image/*" (change)="handleFileInput($event)">
+        </div>
+        <div *ngFor="let i of list" class="logo-container">
+          <img [src]="getUrl() | secure | async" style="max-width: 100%">
+        </div>
+        <div style="text-align: end">
+          <button mat-button matStepperNext type="button">Next</button>
+        </div>
+
+      </mat-step>
+      <mat-step label="Details">
+        <div fxLayout="column">
+          <mat-form-field fxFlex *ngIf="!isEducational">
+            <mat-label>Industry</mat-label>
+            <input type="text"
+                   placeholder="Search for industry"
+                   matInput
+                   formControlName="industry"
+                   [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let industry of industries | async" [value]="industry">
+                {{industry}}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="form.controls['industry'].hasError('serverError')">
+              {{form.controls['industry'].getError('serverError')}}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field fxFlex *ngIf="isEducational">
+            <mat-label>Academic Disciplines</mat-label>
+            <input type="text"
+                   placeholder="Search for academic discipline"
+                   matInput
+                   formControlName="academicdiscipline"
+                   [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let discipline of disciplines | async" [value]="discipline">
+                {{discipline}}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="form.controls['academicdiscipline'].hasError('serverError')">
+              {{form.controls['academicdiscipline'].getError('serverError')}}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field fxFlex
+                          *ngIf="form.controls['orgtype'].value === 'Small enterprise' || form.controls['orgtype'].value === 'Medium / large enterprise' ">
+            <mat-label>Legal Type</mat-label>
+            <mat-select formControlName="legaltype">
+              <mat-option *ngFor="let type of orgLegalTypes" [value]="type.legaltype">
+                {{type.legaltype}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.controls['legaltype'].hasError('serverError')">
+              {{form.controls['legaltype'].getError('serverError')}}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field fxFlex>
+            <mat-label>Description</mat-label>
+            <input matInput placeholder="Description" formControlName="description">
+            <mat-error *ngIf="form.controls['description'].hasError('serverError')">
+              {{form.controls['description'].getError('serverError')}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
+          <button mat-button matStepperPrevious type="button">Back</button>
+          <button mat-raised-button color="primary" type="submit">Save</button>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </form>
+</mat-dialog-content>

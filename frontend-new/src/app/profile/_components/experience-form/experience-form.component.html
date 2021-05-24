@@ -1,0 +1,90 @@
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <h2 style="margin: 0">{{ data ? 'Edit Experience ' : 'Add Experience'}}</h2>
+  <!--    <button mat-icon-button type="button" (click)="close()">-->
+  <!--      <mat-icon>close</mat-icon>-->
+  <!--    </button>-->
+</div>
+<mat-divider></mat-divider>
+<mat-dialog-content>
+  <form [formGroup]="experienceForm" (ngSubmit)="submit()">
+    <div fxLayout="row" fxLayoutGap="4%" fxLayoutAlign="start center" style="margin-top: 20px">
+      <div fxLayout="column" fxFlex="48">
+
+        <mat-form-field>
+          <mat-label>Position</mat-label>
+          <input matInput placeholder="Enter your position or title" formControlName="position">
+        </mat-form-field>
+
+        <h4 style="margin: 0">Start</h4>
+
+        <div fxLayout="row" fxLayoutGap="20px">
+          <mat-form-field fxFlex="30">
+            <mat-label>Month</mat-label>
+            <mat-select formControlName="frommonth">
+              <mat-option *ngFor="let month of months" [value]="month">
+                {{month}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field fxFlex="30">
+            <mat-label>Year</mat-label>
+            <mat-select formControlName="fromyear">
+              <mat-option *ngFor="let year of years" [value]="year">
+                {{year}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div fxLayout="column" fxFlex="48">
+        <mat-form-field>
+          <mat-label>Company</mat-label>
+          <input matInput placeholder="Enter company name" formControlName="company">
+        </mat-form-field>
+
+        <h4 style="margin:0">End</h4>
+
+        <div fxLayout="row" fxLayoutGap="20px">
+          <mat-form-field fxFlex="30">
+            <mat-label>Month</mat-label>
+            <mat-select formControlName="tomonth">
+              <mat-option *ngFor="let month of months" [value]="month">
+                {{month}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field fxFlex="30">
+            <mat-label>Year</mat-label>
+            <mat-select formControlName="toyear">
+              <mat-option *ngFor="let year of years" [value]="year">
+                {{year}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <mat-checkbox formControlName="iscurrent">I'm currently working here</mat-checkbox>
+    </div>
+    <br>
+    <mat-divider></mat-divider>
+    <br>
+
+    <!--  <div fxLayout="row">-->
+    <!--    <mat-form-field fxFlex>-->
+    <!--      <mat-label>Summary</mat-label>-->
+    <!--      <textarea matInput placeholder="Describe your work experience" formControlName="summary"></textarea>-->
+    <!--    </mat-form-field>-->
+    <!--  </div>-->
+
+    <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="20px">
+      <button mat-stroked-button type="button" (click)="close()">Cancel</button>
+      <button mat-raised-button color="primary" type="submit">Save</button>
+    </div>
+  </form>
+</mat-dialog-content>

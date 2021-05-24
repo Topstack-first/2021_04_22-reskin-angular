@@ -1,0 +1,121 @@
+.mat-toolbar-row, .mat-toolbar-single-row {
+  position: inherit;
+  top: 0;
+  z-index: 1;
+  height: 64px;
+  background-color: #f8f9fa;
+  border-bottom-style: ridge;
+  border-bottom-width: thin;
+}
+
+.hover-color:hover {
+  color: #60c84c;
+  cursor: pointer;
+}
+
+.search-bar {
+  font-size: 14px;
+  height: 10px;
+  width: 200px;
+  transition: width 0.5s;
+}
+
+.search-bar:focus-within {
+  width: 300px;
+}
+
+.mat-form-field-appearance-outline::ng-deep .mat-form-field-infix::ng-deep {
+  padding: 0 0 5px 0 !important;
+}
+
+.border-space {
+  margin-right: 15px;
+  border-right-style: ridge;
+  border-right-width: thin;
+  padding: 12px 15px 12px 0
+}
+
+.border-space-1 {
+  margin-right: 15px;
+  border-right-style: ridge;
+  border-right-width: thin;
+  padding: 15px 15px 15px 0
+}
+
+.border-space-mobile {
+  border-right-style: ridge;
+  border-right-width: thin;
+  padding-right: 2vw;
+  height: 100%;
+}
+
+.text {
+  font-size: .875rem;
+  font-weight: 300;
+  color: #39527b;
+}
+
+
+.container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.is-mobile .toolbar {
+  position: fixed;
+  z-index: 1;
+}
+
+h1.app-name {
+  margin-left: 8px;
+}
+
+.sidenav-container {
+  background-color: white;
+  flex: 1;
+}
+
+.is-mobile .sidenav-container {
+  flex: 1 0 auto;
+}
+
+.sidenav {
+  width: 300px;
+}
+
+::ng-deep.mat-tab-label, ::ng-deep.mat-tab-label-active {
+  min-width: 50px !important;
+  padding: 30px !important;
+  //margin: 0 10px !important;
+}
+
+.float {
+  position: fixed;
+  bottom: 60%;
+  right: 15px;
+  width: 40px;
+  height: 60px;
+  background-color: white;
+  z-index: 100;
+  transition: right 400ms cubic-bezier(.25, .8, .25, 1);
+}
+
+.float-left {
+  right: 300px;
+}
+
+.logo {
+  width: 100px;
+  cursor: pointer
+}
+
+@media screen and (max-width: 800px) {
+  .logo {
+    margin-right: 0;
+  }
+}

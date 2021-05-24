@@ -1,0 +1,224 @@
+* {
+  box-sizing: border-box;
+}
+
+.grid-container {
+  margin: auto;
+  width: 85%;
+}
+
+/* Header/Blog Title */
+.header {
+  //padding: 30px;
+  margin-top: 20px;
+  background-color: #f7f7f7;
+}
+
+/* Create two unequal columns that floats next to each other */
+/* Left column */
+.leftcolumn {
+  float: left;
+  width: 50%;
+}
+
+/* Right column */
+.rightcolumn {
+  float: left;
+  width: 50%;
+  padding-left: 20px;
+}
+
+/* Add a card effect for articles */
+.card {
+  background-color: white;
+  border: solid thin #eeeeee;
+  //padding: 20px;
+  margin-top: 20px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Footer */
+.footer {
+  height: 100px;
+  padding: 20px;
+  background-color: #fdfdfd;
+  border-top: 1px solid #edecec;
+  margin-top: 30px;
+}
+
+/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 800px) {
+  .leftcolumn, .rightcolumn {
+    width: 100%;
+    padding: 0;
+  }
+}
+
+.widget-header {
+  //border: #eeeeee solid thin;
+  background-color: #f7f7f7;
+  padding: 0 20px
+}
+
+.widget {
+  border-top: #eeeeee solid thin;
+  padding: 20px;
+}
+
+p {
+  margin: 0;
+  color: #39527b;
+}
+
+h3 {
+  margin: 10px 0;
+  color: #39527b;
+}
+
+h4 {
+  margin: 0;
+  color: #39527b;
+}
+
+.text {
+  color: #39527b;
+  font-size: .875rem;
+  font-weight: 300;
+}
+
+.social-icon {
+  filter: invert(30%) sepia(10%) saturate(2575%) hue-rotate(179deg) brightness(94%) contrast(89%);
+  width: 15px;
+  height: 15px;
+}
+
+.facebook:hover {
+  filter: invert(34%) sepia(15%) saturate(2014%) hue-rotate(183deg) brightness(94%) contrast(93%);
+  cursor: pointer;
+}
+
+.linkedin:hover {
+  filter: invert(28%) sepia(99%) saturate(1047%) hue-rotate(173deg) brightness(98%) contrast(101%);
+  cursor: pointer;
+}
+
+.twitter:hover {
+  filter: invert(60%) sepia(76%) saturate(3577%) hue-rotate(176deg) brightness(96%) contrast(97%);
+  cursor: pointer;
+}
+
+.insta:hover {
+  filter: invert(29%) sepia(29%) saturate(6295%) hue-rotate(299deg) brightness(76%) contrast(90%);
+  cursor: pointer;
+}
+
+.icon {
+  color: #39527b;
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+.profile-card {
+  background-color: #f8f9fa;
+  border: solid thin #eeeeee;
+  padding: 20px;
+}
+
+.margin-right {
+  margin-right: 10px;
+}
+
+.container {
+  position: relative;
+  cursor: pointer
+}
+
+.image {
+  opacity: 1;
+  display: block;
+  max-width: 200px;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.container:hover .image {
+  opacity: 0.3;
+}
+
+.container:hover .middle {
+  opacity: 1;
+}
+
+.text-block {
+  position: absolute;
+  bottom: 20px;
+  right: 30%;
+  background-color: rgba(0, 0, 0, .5);
+  color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+@media screen and (max-width: 800px) {
+  .text-block {
+    right: 0;
+  }
+}
+
+.newsfeed {
+  background-color: white;
+  //margin-bottom: 20px;
+  padding: 0 20px;
+  border-radius: 25px;
+  border: #eeeeee solid thin;
+}
+
+.newsfeed-card {
+  border-top: #eeeeee solid thin;
+  background-color: #f3f2ef;
+  padding: 20px 10px;
+}
+
+.newsfeed-entity-card {
+  background-color: #f8f9fa;
+  border-right: solid thin #eeeeee;
+  padding: 20px;
+}
+
+.newsfeed-header {
+  border-bottom: solid thin #eeeeee;
+}
+
+.newsfeed-footer {
+  border-top: solid thin #eeeeee;
+}
+
+.comments:hover {
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.comment-unit {
+  //border: solid thin gray;
+  padding: 10px;
+  border-radius: 15px;
+  background-color: #f0f2f5;
+  margin-bottom: 15px;
+}

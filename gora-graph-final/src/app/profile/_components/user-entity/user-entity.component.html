@@ -1,0 +1,268 @@
+<div class="container">
+  <div class="back-button">
+    <button mat-stroked-button class="action-btn search-bar-button" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+      <span>Go Back</span>
+    </button>
+  </div>
+
+  <mat-horizontal-stepper #stepper labelPosition="bottom">
+
+    <mat-step>
+
+      <form [formGroup]="introForm" (ngSubmit)="submitIntro()">
+        <ng-template matStepLabel>Intro</ng-template>
+        <div fxLayout="row" fxLayout.xs="column" [style.margin-top]="'70px'" fxLayoutGap="20px" fxLayoutGap.xs="0px"
+          fxLayoutAlign="center center">
+          <mat-form-field appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input matInput placeholder="First Name" formControlName="firstname">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input matInput placeholder="Last Name" formControlName="lastname">
+          </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutGap.xs="0px" fxLayoutAlign="center center">
+          <mat-form-field appearance="outline">
+            <mat-label>Professional Title</mat-label>
+            <input matInput placeholder="Professional Title" formControlName="title">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Summary</mat-label>
+            <input matInput placeholder="Summary" formControlName="summary">
+          </mat-form-field>
+        </div>
+
+        <button class="save-btn" mat-raised-button type="submit">Save</button>
+
+      </form>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>Experience</ng-template>
+
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <h2>Experience</h2>
+        <button mat-mini-fab color="primary" type="button" (click)="openExperienceForm(null)">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
+      <div cdkDropList (cdkDropListDropped)="dropExperience($event)" class="list">
+        <div *ngFor="let experience of experiences" fxLayout="row" class="unit mat-elevation-z1"
+          fxLayoutAlign="center center" cdkDrag>
+          <div fxLayout="column" fxFlex="80">
+            <h3>{{experience.position}} - {{experience.company}}</h3>
+            <div>{{experience.frommonth}} {{experience.fromyear}} - {{experience.tomonth}} {{experience.toyear}}</div>
+          </div>
+
+          <div fxFlex="10" fxFlexAlign="center" fxLayout="row" fxLayoutAlign="end center">
+            <button mat-icon-button (click)="deleteExperience(experience.eid)">
+              <mat-icon class="delete-button">delete</mat-icon>
+            </button>
+          </div>
+
+          <div fxFlex="10" fxFlexAlign="center" fxLayout="row" fxLayoutAlign="end center">
+            <button mat-icon-button (click)="openExperienceForm(experience)">
+              <mat-icon class="edit-button">edit</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-button">
+        <button mat-raised-button class="backward-button" matStepperPrevious type="button">
+          <mat-icon>arrow_backward</mat-icon>
+          Back
+        </button>
+        <button mat-raised-button matStepperNext type="submit">Next
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>Education</ng-template>
+
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <h2>Education</h2>
+        <button mat-mini-fab color="primary" type="button" (click)="openEducationForm(null)">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
+      <div cdkDropList (cdkDropListDropped)="dropEducation($event)" class="list">
+        <div *ngFor="let education of educations" fxLayout="row" class="unit mat-elevation-z1"
+          fxLayoutAlign="center center" cdkDrag>
+          <div fxLayout="column" fxFlex="80">
+            <h3>{{education.entityname}}</h3>
+            <h4>{{education.degree}} , {{education.fieldofstudy}}</h4>
+            <div>{{education.frommonth}} {{education.fromyear}} - {{education.tomonth}} {{education.toyear}}</div>
+          </div>
+
+          <div fxFlex="10" fxFlexAlign="center" fxLayout="row" fxLayoutAlign="end center">
+            <button mat-icon-button (click)="deleteEducation(education.eid)">
+              <mat-icon class="delete-button">delete</mat-icon>
+            </button>
+          </div>
+
+          <div fxFlex="10" fxFlexAlign="center" fxLayout="row" fxLayoutAlign="end center">
+            <button mat-icon-button (click)="openEducationForm(education)">
+              <mat-icon class="edit-button">edit</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-button">
+        <button mat-raised-button class="backward-button" matStepperPrevious type="button">
+          <mat-icon>arrow_backward</mat-icon>
+          Back
+        </button>
+        <button mat-raised-button matStepperNext type="submit">Next
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>Qualifications</ng-template>
+
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <h2>Qualification</h2>
+        <button mat-mini-fab color="primary" type="button" (click)="openQualificationForm(null)">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
+      <div cdkDropList (cdkDropListDropped)="dropQualification($event)" class="list">
+        <div *ngFor="let qualification of qualifications" fxLayout="row" class="unit mat-elevation-z1"
+          fxLayoutAlign="center center" cdkDrag>
+          <div fxLayout="column" fxFlex="80">
+            <h3>{{qualification.description}}</h3>
+            <div>{{qualification.organization}}</div>
+          </div>
+
+          <div fxFlex="10" fxFlexAlign="center" fxLayout="row" fxLayoutAlign="end center">
+            <button mat-icon-button (click)="deleteQualification(qualification.qid)">
+              <mat-icon class="delete-button">delete</mat-icon>
+            </button>
+          </div>
+
+          <div fxFlex="10" fxFlexAlign="center" fxLayout="row" fxLayoutAlign="end center">
+            <button mat-icon-button (click)="openQualificationForm(qualification)">
+              <mat-icon class="edit-button">edit</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-button">
+        <button mat-raised-button class="backward-button" matStepperPrevious type="button">
+          <mat-icon>arrow_backward</mat-icon>
+          Back
+        </button>
+        <button mat-raised-button matStepperNext type="submit">Next
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>Portfolio</ng-template>
+
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <h2>Portfolio</h2>
+        <button mat-mini-fab color="primary" type="button" (click)="openPortfolioForm(null)">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
+      <div cdkDropList (cdkDropListDropped)="dropPortfolio($event)" class="list">
+        <div *ngFor="let portfolio of portfolios" fxLayout="row" class="unit mat-elevation-z1"
+          fxLayoutAlign="center center" cdkDrag>
+          <div fxLayout="column" fxFlex="80">
+            <h3>{{portfolio.title}}</h3>
+            <div>{{portfolio.description}}</div>
+          </div>
+
+          <div fxFlex="10" fxFlexAlign="center" fxLayout="row" fxLayoutAlign="end center">
+            <button mat-icon-button (click)="deletePortfolio(portfolio.pid)">
+              <mat-icon class="delete-button">delete</mat-icon>
+            </button>
+          </div>
+
+          <div fxFlex="10" fxFlexAlign="center" fxLayout="row" fxLayoutAlign="end center">
+            <button mat-icon-button (click)="openPortfolioForm(portfolio)">
+              <mat-icon class="edit-button">edit</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-button">
+        <button mat-raised-button class="backward-button" matStepperPrevious type="button">
+          <mat-icon>arrow_backward</mat-icon>
+          Back
+        </button>
+        <button mat-raised-button matStepperNext type="submit">Next
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>Skills</ng-template>
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <h2>Skills</h2>
+        <button mat-mini-fab color="primary" type="button" (click)="openSkillsForm(null)">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
+      <div cdkDropList (cdkDropListDropped)="dropSkills($event)" class="list">
+        <div *ngFor="let skill of skills" fxLayout="row" class="unit mat-elevation-z1" fxLayoutAlign="center center"
+          cdkDrag>
+          <div fxLayout="column" fxFlex="80">
+            <h3>{{skill.industry}}</h3>
+            <div fxLayout="row-wrap" fxLayoutGap="5px">
+              <div *ngFor="let skillItem of skill.skills">{{skillItem.skill}},</div>
+            </div>
+          </div>
+
+          <div fxFlex="10" fxFlexAlign="center" fxLayout="row" fxLayoutAlign="end center">
+            <button mat-icon-button (click)="deleteSkill(skill.sid)">
+              <mat-icon class="delete-button">delete</mat-icon>
+            </button>
+          </div>
+
+          <div fxFlex="10" fxFlexAlign="center" fxLayout="row" fxLayoutAlign="end center">
+            <button mat-icon-button (click)="openSkillsForm(skill)">
+              <mat-icon class="edit-button">edit</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-button">
+        <button mat-raised-button class="backward-button" matStepperPrevious type="button">
+          <mat-icon>arrow_backward</mat-icon>
+          Back
+        </button>
+        <button mat-raised-button matStepperNext type="submit">Save
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+
+    </mat-step>
+  </mat-horizontal-stepper>
+
+</div>

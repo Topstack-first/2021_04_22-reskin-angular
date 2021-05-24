@@ -1,0 +1,122 @@
+<div class="login">
+  <mat-tab-group #mtg class="header-less-tabs">
+    <mat-tab>
+      <ng-container>
+        <form (ngSubmit)="signup()" [formGroup]="signupForm">
+          <div class="login-container">
+            <div class="company-name-login">
+              <img alt="icon" src="../../../assets/logo-final.png" style="width: 200px">
+              <!--              <h1>A-GORA</h1>-->
+            </div>
+            <div class="login-body">
+              <div class="login-forms">
+                <div class="error-field" [ngStyle]="{'visibility': serverErrors ? 'visible': 'hidden'}">
+                  {{serverErrors ? serverErrors : '&nbsp;'}}
+                </div>
+
+                <div>
+                  <div class="input-icon">
+                    <img alt="input icon" src="../../../assets/login-user.svg">
+                  </div>
+                  <mat-form-field class="input-form">
+                    <input matInput autocapitalize="off"
+                           autocomplete="off"
+                           class="input-form-email"
+                           formControlName="email"
+                           placeholder="Email"
+                           type="text">
+                    <mat-error *ngIf="signupForm.get('email').hasError('email')">
+                      Please enter a valid email address
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div>
+                  <div class="input-icon">
+                    <img alt="input icon" src="../../../assets/password-icon.svg">
+                  </div>
+                  <mat-form-field class="input-form">
+                    <input matInput autocapitalize="off"
+                           autocomplete="off"
+                           class="input-form-password"
+                           formControlName="password"
+                           placeholder="Password"
+                           type="password">
+                  </mat-form-field>
+                </div>
+
+                <div>
+                  <div class="input-icon">
+                    <img alt="input icon" src="../../../assets/password-icon.svg">
+                  </div>
+                  <mat-form-field class="input-form">
+                    <input matInput autocapitalize="off"
+                           autocomplete="off"
+                           class="input-form-password"
+                           formControlName="passwordConfirm"
+                           placeholder="Password (again)"
+                           type="password">
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="login-button">
+                <button mat-button type="submit">Register</button>
+                <p class="signup">You have an account?
+                  <b (click)="goToLogin()" class="pointer" style="text-decoration: underline;">Login</b>
+                </p>
+              </div>
+            </div>
+          </div>
+        </form>
+      </ng-container>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-container>
+        <form (ngSubmit)="confirm()" [formGroup]="pinForm">
+          <div class="login-container">
+            <div class="company-name-login">
+              <img alt="icon" src="../../../assets/logo-final.png" style="width: 200px">
+              <!--              <h1>A-GORA</h1>-->
+            </div>
+            <div class="login-body">
+              <div class="login-forms">
+                <div class="error-field" [ngStyle]="{'visibility': serverErrors ? 'visible': 'hidden'}">
+                  {{serverErrors ? serverErrors : '&nbsp;'}}
+                </div>
+
+                <div>
+                  <mat-form-field class="input-form">
+                    <input matInput autocapitalize="off"
+                           autocomplete="off"
+                           class="input-form-email"
+                           formControlName="pincode"
+                           placeholder="Pin"
+                           type="text">
+                    <!--                    <mat-error *ngIf="userForm.get('firstname').hasError('firstname')">-->
+                    <!--                      Please enter a valid email address-->
+                    <!--                    </mat-error>-->
+                  </mat-form-field>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="center center">
+                  <button fxFlex="50" mat-stroked-button color="primary" type="button" (click)="getNewPinCode()">Resend
+                    Code
+                  </button>
+                </div>
+              </div>
+              <div class="login-button">
+                <button mat-button type="submit">Confirm</button>
+                <p class="signup">You have an account?
+                  <b (click)="goToLogin()" class="pointer" style="text-decoration: underline;">Login</b>
+                </p>
+              </div>
+            </div>
+          </div>
+        </form>
+      </ng-container>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+

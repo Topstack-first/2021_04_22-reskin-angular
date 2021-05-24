@@ -1,0 +1,70 @@
+<div class="container">
+
+  <div class="card">
+
+    <div class="card-header">
+
+      <button class="organization-button" mat-flat-button type="button" *ngxPermissionsOnly="COMPLETED"
+        (click)="openOrganizationEntity()">
+        <mat-icon svgIcon="company"></mat-icon>
+        Create Organization
+      </button>
+
+      <button mat-stroked-button class="export-button" color="primary" type="button" (click)="openUserEntity()">
+        <mat-icon svgIcon="crown-small"></mat-icon>
+        Create Expert
+      </button>
+
+    </div>
+
+    <div class="card-container">
+
+      <form [formGroup]="profileForm" (ngSubmit)="submit()">
+
+        <ng-container *ngFor="let i of list">
+
+          <div class="img-container" (click)="openImageCropper()">
+            <img src="../../../../assets/login-user.svg" alt="picture" class="image" *ngIf="!hasProfilePicture">
+            <img [src]="profilePictureUrl | secure | async" alt="picture" class="image" *ngIf="hasProfilePicture">
+
+            <div class="middle">
+              <mat-icon>camera_alt</mat-icon>
+              <div>Change Picture</div>
+            </div>
+
+          </div>
+        </ng-container>
+
+
+        <!--First Name-->
+        <div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="15px">
+
+          <mat-form-field appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input matInput placeholder="Enter First Name" formControlName="firstname">
+          </mat-form-field>
+
+          <!--Last Name-->
+          <mat-form-field appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input matInput placeholder="Enter Last Name" formControlName="lastname">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Telephone</mat-label>
+            <input matInput placeholder="Telephone" formControlName="telephone">
+          </mat-form-field>
+
+        </div>
+
+        <!--Save Button-->
+        <button mat-button class="add-btn" [class.spinner]="loading" type="submit">
+          Save
+        </button>
+
+      </form>
+    </div>
+
+  </div>
+
+</div>

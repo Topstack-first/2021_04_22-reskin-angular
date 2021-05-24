@@ -1,0 +1,58 @@
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <h2 style="margin: 0">{{ data ? 'Edit Qualification ' : 'Add Qualification'}}</h2>
+</div>
+<mat-divider></mat-divider>
+<mat-dialog-content>
+  <form [formGroup]="qualificationForm" (ngSubmit)="submit()">
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutGap.xs="0px" style="margin-top: 20px">
+      <mat-form-field fxFlex>
+        <mat-label>Professional Certificates or Award</mat-label>
+        <input matInput placeholder="Enter professional certificate or award" formControlName="description">
+      </mat-form-field>
+
+      <mat-form-field fxFlex>
+        <mat-label>Conferring Organization</mat-label>
+        <input matInput placeholder="Enter Conferring Organization" formControlName="organization">
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field fxFlex>
+        <mat-label>Summary</mat-label>
+        <textarea matInput placeholder="Describe your qualification" formControlName="summary"></textarea>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field>
+        <mat-label>Start Year</mat-label>
+        <mat-select formControlName="foryear">
+          <mat-option *ngFor="let year of years" [value]="year">
+            {{year}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field fxFlex>
+        <mat-label>Credential Id</mat-label>
+        <input matInput formControlName="certid">
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field fxFlex>
+        <mat-label>Credential Url</mat-label>
+        <input matInput formControlName="certurl">
+      </mat-form-field>
+    </div>
+    <br>
+
+    <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="20px">
+      <button mat-stroked-button type="button" (click)="close()">Cancel</button>
+      <button mat-raised-button color="primary" type="submit">Save</button>
+    </div>
+
+  </form>
+</mat-dialog-content>

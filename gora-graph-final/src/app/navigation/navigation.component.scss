@@ -1,0 +1,319 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-width: 1550px;
+  margin: auto;
+}
+
+.mat-toolbar {
+  font-size: 14px;
+  line-height: 20px;
+
+  .menu-text {
+    position: absolute;
+    left: 23%;
+    top: 32%;
+  }
+
+  .logo {
+    position: relative;
+    width: 199px;
+    cursor: pointer;
+  }
+
+  .search-bar {
+    position: relative;
+    width: 235px;
+    height: 47px;
+    left: 7%;
+    top: 15%;
+    background: #F4F7F8;
+
+    .mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      left: 2px;
+      top: 0;
+    }
+  }
+
+  .language-menu {
+    position: relative;
+    width: 230px;
+    height: 50px;
+    top: 12%;
+    left: 9%;
+    background: rgba(255, 255, 255, 0.3);
+    opacity: 0.5;
+    border: 1px solid rgba(0, 0, 0, 0.33);
+    border-radius: 12px 12px 12px 0px;
+
+    .mat-icon {
+      top: 14px;
+      right: -12px;
+      position: relative;
+    }
+  }
+
+  .challenge-menu {
+    position: relative;
+    width: 230px;
+    height: 50px;
+    top: 12%;
+    left: 11%;
+    background: #FFFFFF;
+    opacity: 0.5;
+    border: 1px solid rgba(0, 0, 0, 0.33);
+    border-radius: 12px 12px 12px 0px;
+
+    .mat-icon {
+      top: 14px;
+      right: -12px;
+      position: relative;
+    }
+  }
+
+  .profile-item {
+    position: relative;
+    width: 230px;
+    height: 31px;
+    top: 11%;
+    left: 13%;
+    background: #008D91;
+    color: #FFFFFF;
+    border-radius: 12px 12px 12px 0px;
+    padding: 10px;
+
+    .activity-icon {
+      top: 5px;
+      right: -7px;
+      position: relative;
+    }
+
+    .arrow-icon {
+      float: right;
+      right: 3px;
+      top: 3px;
+      position: relative;
+    }
+  }
+
+  .hamburger {
+    position: relative;
+    left: 14.4%;
+    top: 9%;
+
+    .mat-mini-fab {
+      background: #f2f2f2;
+      color: #696969;
+    }
+  }
+
+  .notification-item {
+    position: relative;
+    left: 14.4%;
+    top: 9%;
+
+    .mat-mini-fab {
+      background: #f2f2f2;
+    }
+  }
+
+  .message-item {
+    position: relative;
+    left: 16%;
+    top: 9%;
+
+    .mat-mini-fab {
+      background: #f2f2f2;
+    }
+  }
+}
+
+::ng-deep .mat-badge-content {
+  background: #FF754C !important;
+}
+
+.mat-toolbar-row,
+.mat-toolbar-single-row {
+  position: inherit;
+  top: 0;
+  z-index: 1;
+  height: 121px;
+  background-color: #fdfdfd;
+  border-bottom-style: ridge;
+  border-bottom-width: thin;
+}
+
+.hover-color:hover {
+  color: #60c84c;
+  cursor: pointer;
+}
+
+.mat-form-field-appearance-outline::ng-deep .mat-form-field-infix::ng-deep {
+  padding: 8px 5px 14px 10px !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.border-space {
+  margin-right: 15px;
+  border-right-style: ridge;
+  border-right-width: thin;
+  padding: 12px 15px 12px 0
+}
+
+.border-space-1 {
+  margin-right: 15px;
+  border-right-style: ridge;
+  border-right-width: thin;
+  padding: 15px 15px 15px 0
+}
+
+.border-space-mobile {
+  border-right-style: ridge;
+  border-right-width: thin;
+  padding-right: 2vw;
+  height: 100%;
+}
+
+.text {
+  font-size: .875rem;
+  font-weight: 300;
+  color: #39527b;
+}
+
+
+.is-mobile .toolbar {
+  position: fixed;
+  z-index: 1;
+}
+
+h1.app-name {
+  margin-left: 8px;
+}
+
+.sidenav-container {
+  background-color: white;
+  flex: 1;
+}
+
+.is-mobile .sidenav-container {
+  flex: 1 0 auto;
+}
+
+.sidenav {
+  width: 300px;
+}
+
+::ng-deep.mat-tab-label,
+::ng-deep.mat-tab-label-active {
+  min-width: 50px !important;
+  padding: 30px !important;
+  //margin: 0 10px !important;
+}
+
+.float {
+  position: fixed;
+  bottom: 60%;
+  right: 15px;
+  width: 40px;
+  height: 60px;
+  background-color: white;
+  z-index: 100;
+  transition: right 400ms cubic-bezier(.25, .8, .25, 1);
+}
+
+.float-left {
+  right: 300px;
+}
+
+.btm_nav_icon {
+  display: flex;
+  color: #008D91;
+  align-items: center;
+
+}
+
+
+@media screen and (max-width: 800px) {
+  .logo {
+    margin-right: 0;
+  }
+}
+
+@media only screen and (max-width:767px) {
+
+  .mat-toolbar-row {
+    margin-bottom: 5px;
+    padding: 0 5px;
+    border-radius: 0px 0px 15px 15px;
+  }
+
+  .logo {
+    width: 100% !important;
+    height: 90%;
+  }
+
+  .hamburger {
+    left: 5.4% !important;
+    top: -20% !important;
+  }
+
+  .notification-item {
+    left: -5.6% !important;
+    top: 20% !important;
+  }
+
+  .message-item {
+    left: -5.6% !important;
+    top: 20% !important;
+  }
+
+  .sidenav-container {
+    background: whitesmoke;
+  }
+
+  .mat-drawer-content {
+    background-color: #fff;
+    margin: 0 5px;
+  }
+
+}
+
+@media only screen and (min-width:768px) and (max-width: 1367px) {
+
+  .search-bar {
+    left: 5% !important;
+  }
+
+  .language-menu {
+    left: 6% !important;
+  }
+
+  .challenge-menu {
+    left: 7% !important;
+  }
+
+  .profile-item {
+    left: 8% !important
+  }
+
+  .message-item {
+    left: 8.5% !important
+  }
+
+  .notification-item {
+    left: 8.5% !important
+  }
+
+}

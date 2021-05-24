@@ -1,0 +1,228 @@
+<div class="container">
+  <div class="back-button">
+    <button mat-stroked-button class="action-btn" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+      <span>Go Back</span>
+    </button>
+  </div>
+
+  <mat-tab-group mat-align-tabs="center" [(selectedIndex)]="selectedTab">
+    <form [formGroup]="formGroup" (ngSubmit)="submit()">
+      <mat-tab label="First Tab">
+        <div fxLayout="column" fxLayoutAlign="center center">
+
+          <!--<h1 fxFlexAlign="start">Title</h1>-->
+          <mat-form-field appearance="outline">
+            <mat-label>Title</mat-label>
+            <input matInput placeholder="Write the title with less than 150 characters" formControlName="title">
+            <mat-error *ngIf="formGroup.controls['title'].hasError('serverError')">
+              {{formGroup.controls['title'].getError('serverError')}}
+            </mat-error>
+          </mat-form-field>
+
+          <!--<h1 fxFlexAlign="start">Choose category</h1>-->
+          <mat-form-field appearance="outline">
+            <mat-label>Industry / Category</mat-label>
+            <input type="text" placeholder="Pick one" matInput formControlName="category" [matAutocomplete]="auto1">
+            <mat-autocomplete #auto1="matAutocomplete">
+              <mat-option *ngFor="let category of filteredCategories | async" [value]="category['cat']">
+                {{category['cat']}}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="formGroup.controls['category'].hasError('serverError')">
+              {{formGroup.controls['category'].getError('serverError')}}
+            </mat-error>
+          </mat-form-field>
+
+          <!--<h1 fxFlexAlign="start">Choose publication</h1>-->
+          <mat-form-field appearance="outline">
+            <mat-label>Type of publication</mat-label>
+            <input type="text" placeholder="Pick one" matInput formControlName="type" [matAutocomplete]="auto2">
+            <mat-autocomplete #auto2="matAutocomplete">
+              <mat-option *ngFor="let type of filteredTypes | async" [value]="type['type']">
+                {{type['type']}}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="formGroup.controls['type'].hasError('serverError')">
+              {{formGroup.controls['type'].getError('serverError')}}
+            </mat-error>
+          </mat-form-field>
+
+        </div>
+
+        <div class="quill-editor">
+          <h3 class="quill-editor-header">Abstract</h3>
+          <quill-editor formControlName="abstract">
+          </quill-editor>
+          <mat-error *ngIf="formGroup.controls['abstract'].hasError('serverError')">
+            {{formGroup.controls['abstract'].getError('serverError')}}
+          </mat-error>
+        </div>
+
+        <div *ngFor="let i of list" class="logo-container">
+          <!-- <mat-icon (click)="removeFile(mainImageId)">delete</mat-icon> -->
+          <img [src]="getUrl(mainImageId) | secure | async">
+        </div>
+
+        <div class="footer-button">
+          <input #input1 class="hidden-input" type="file" accept="image/*" (change)="handleAbstractFileInput($event)">
+          <button mat-flat-button (click)="input1.click()" type="button" [class.spinner]="loading">
+            Upload Image
+          </button>
+
+          <button mat-raised-button type="button" (click)="nextTab()" [disabled]="hasErrorFirstTab()">
+            Next<mat-icon>arrow_forward</mat-icon>
+          </button>
+        </div>
+
+      </mat-tab>
+
+      <mat-tab label="Second Tab">
+
+        <div class="quill-editor">
+          <h3 class="quill-editor-header">Content</h3>
+          <quill-editor formControlName="content" class="custom-quill-tooltip">
+          </quill-editor>
+        </div>
+
+        <mat-error *ngIf="formGroup.controls['content'].hasError('serverError')">
+          {{formGroup.controls['content'].getError('serverError')}}
+        </mat-error>
+
+        <div *ngFor="let file of files" class="file">
+          <a [href]="getUrl(file.id) | secure | async" download="{{file.name}}">
+            <span>{{file.name}}</span>
+            <span class="file-size">({{file.sizebytes | fileSize}})</span>
+          </a>
+          <mat-icon (click)="removeFile(file.id)">close</mat-icon>
+        </div>
+
+        <div class="footer-button">
+          <input #input2 class="hidden-input" type="file" accept="*/*" (change)="handleFileInput($event)">
+          <button mat-flat-button class="desktop-file" (click)="input2.click()" type="button" [class.spinner]="loading">
+            <mat-icon>attach_file</mat-icon>
+            Attach File
+          </button>
+
+          <button mat-icon-button class="mobile-file" (click)="input2.click()" type="button" [class.spinner]="loading">
+            <mat-icon>attach_file</mat-icon>
+          </button>
+
+          <button mat-raised-button class="backward-button" (click)="previousTab()" type="button">
+            <mat-icon>arrow_backward</mat-icon>
+            Back
+          </button>
+          <button mat-raised-button type="button" (click)="nextTab()" [disabled]="hasErrorSecondTab()">Next
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Done">
+
+        <div class="quill-editor">
+          <h3 class="quill-editor-header">Bibliography</h3>
+          <quill-editor formControlName="bibliography" class="custom-quill-tooltip"></quill-editor>
+
+          <mat-error *ngIf="formGroup.controls['bibliography'].hasError('serverError')">
+            {{formGroup.controls['bibliography'].getError('serverError')}}
+          </mat-error>
+        </div>
+
+        <div fxLayout="column" fxLayoutAlign="center center">
+          <mat-form-field appearance="outline" class="keyword-input">
+            <mat-label>Keywords</mat-label>
+            <mat-chip-list #chipList aria-label="Fruit selection">
+              <mat-chip *ngFor="let keyword of keywords" [selectable]="selectable" [removable]="removable"
+                (removed)="remove(keyword)">
+                {{keyword.keyword}}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+              </mat-chip>
+              <input placeholder="Enter keyword here... - Press ENTER or ' , ' to seperate" [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                (matChipInputTokenEnd)="add($event)">
+            </mat-chip-list>
+          </mat-form-field>
+
+          <div formGroupName="authorship" class="authorship" fxLayout="column" class="authorship">
+            <h3>Authorship</h3>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutGap.xs="0">
+              <mat-form-field appearance="outline" fxFlex>
+                <mat-label>Creation Date</mat-label>
+                <input matInput placeholder="Choose a date" [matDatepicker]="picker" formControlName="creationdate">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="formGroup.get('authorship.creationdate').hasError('serverError')">
+                  {{formGroup.get('authorship.creationdate').getError('serverError')}}
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" fxFlex>
+                <mat-label>External link</mat-label>
+                <input matInput placeholder="Choose a date" formControlName="externallink">
+                <mat-error *ngIf="formGroup.get('authorship.externallink').hasError('serverError')">
+                  {{formGroup.get('authorship.externallink').getError('serverError')}}
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div formArrayName="authors">
+              <div *ngFor="let author of formGroup.get('authorship.authors')['controls']; let i=index">
+                <div [formGroupName]="i" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center"
+                  fxLayoutAlign.xs="start stretch" fxLayoutGap="20px" fxLayoutGap.xs="0">
+
+                  <!--Name-->
+                  <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Author's name</mat-label>
+                    <input type="text" placeholder="Author's name" matInput formControlName="name">
+                  </mat-form-field>
+
+                  <!--Date-->
+                  <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Contribution</mat-label>
+                    <input type="text" matInput placeholder="Contribution" formControlName="contribution">
+                  </mat-form-field>
+
+                  <button (click)="removeAuthor(i)" class="author-delete" mat-icon-button
+                    [disabled]="formGroup.get('authorship.authors')['controls'].length == 1">
+                    <mat-icon [class.delete-button]="formGroup.get('authorship.authors')['controls'].length !== 1">
+                      delete
+                    </mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <button (click)="addAuthor()" type="button" mat-raised-button fxFlexAlign="center" class="round-button">
+              <mat-icon>add</mat-icon>
+              New Author
+            </button>
+          </div>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Visibilities</mat-label>
+            <mat-select formControlName="visibility">
+              <mat-option *ngFor="let visibility of visibilities" [value]="visibility.type">
+                {{visibility.type}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formGroup.controls['visibility'].hasError('serverError')">
+              {{formGroup.controls['visibility'].getError('serverError')}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="footer-button">
+          <button mat-raised-button type="button" (click)="previousTab()" class="backward-button">
+            <mat-icon>arrow_backward</mat-icon>
+            Back
+          </button>
+          <button mat-flat-button type="submit" (click)="submit()" [disabled]="hasErrorThirdTab()">Publish</button>
+        </div>
+      </mat-tab>
+    </form>
+
+  </mat-tab-group>
+
+
+</div>

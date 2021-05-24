@@ -1,0 +1,243 @@
+<div class="container">
+  <div class="back-button">
+    <button mat-stroked-button class="action-btn search-bar-button" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+      <span>Go Back</span>
+    </button>
+  </div>
+
+  <mat-horizontal-stepper #stepper>
+
+    <form [formGroup]="formGroup" (ngSubmit)="submit()" autocomplete="off">
+
+      <mat-step label="Basic Info" [hasError]="hasErrorFirstTab()" errorMessage="Check for errors">
+
+        <div fxLayout="column" fxLayoutAlign="center center">
+          <mat-form-field>
+            <mat-label>Title</mat-label>
+            <input matInput placeholder="Title of the Contest" formControlName="title">
+            <mat-hint>
+              Chose a brief, clear title, that gives a good a good idea of the essence of your contest
+            </mat-hint>
+            <mat-error *ngIf="formGroup.controls['title'].hasError('serverError')">
+              {{formGroup.controls['title'].getError('serverError')}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="quill-editor">
+          <h3 class="quill-editor-header">Abstract</h3>
+          <quill-editor formControlName="abstract"></quill-editor>
+
+          <mat-hint *ngIf="!formGroup.controls['abstract'].hasError('serverError')">Choose a brief, clear abstract,
+            that gives a good a good idea of the essence of your contest
+          </mat-hint>
+
+          <mat-error *ngIf="formGroup.controls['abstract'].hasError('serverError')">
+            {{formGroup.controls['abstract'].getError('serverError')}}
+          </mat-error>
+        </div>
+
+        <h3 class="category-header">Contest Category</h3>
+        <div fxLayout="column" fxLayoutAlign="center center">
+          <mat-form-field>
+            <mat-label>Category</mat-label>
+            <input matInput placeholder="Category" formControlName="maincategory" [matAutocomplete]="auto1">
+            <mat-autocomplete #auto1="matAutocomplete">
+              <mat-option *ngFor="let category of filteredMainCategories | async" [value]="category['mcategory']">
+                {{category['mcategory']}}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-hint>Choose a category that mostly aligns with your contest</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Subcategory</mat-label>
+            <input matInput placeholder="Subcategory" formControlName="subcategory" [matAutocomplete]="auto2">
+            <mat-autocomplete #auto2="matAutocomplete">
+              <mat-option *ngFor="let category of filteredSubCategories | async" [value]="category['scategory']">
+                {{category['scategory']}}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-hint>Think of where backers may find it</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div *ngFor="let i of list" class="logo-container">
+          <img [src]="getUrl(mainImageId) | secure | async" style="max-width: 100%">
+        </div>
+
+        <div class="footer-button">
+          <input #input1 class="hidden-input" type="file" accept="image/*" (change)="handleAbstractFileInput($event)">
+          <button type="button" mat-flat-button (click)="input1.click()" [class.spinner]="loading">
+            <mat-icon>insert_photo</mat-icon>
+            Upload Image
+          </button>
+          <button type="button" mat-raised-button matStepperNext>
+            Next <mat-icon>arrow_forward</mat-icon>
+          </button>
+        </div>
+      </mat-step>
+
+      <mat-step label="Project description" [hasError]="hasErrorSecondTab()" errorMessage="Check for errors">
+
+        <div class="quill-editor">
+          <h3 class="quill-editor-header">Detailed description</h3>
+          <quill-editor formControlName="description"></quill-editor>
+          <mat-error *ngIf="formGroup.controls['description'].hasError('serverError')">
+            {{formGroup.controls['description'].getError('serverError')}}
+          </mat-error>
+        </div>
+
+        <div *ngFor="let file of files" class="file" fxLayout="row" fxLayoutAlign="space-between center">
+          <a [href]="getUrl(file.id) | secure | async" download="{{file.name}}">
+            <span>{{file.name}}</span>
+            <span class="file-size">({{file.sizebytes | fileSize}})</span>
+          </a>
+          <mat-icon (click)="removeFile(file.id)">close</mat-icon>
+        </div>
+
+        <div class="footer-button">
+          <input #input2 class="hidden-input" type="file" accept="*/*" (change)="handleFileInput($event)">
+          <button mat-flat-button class="desktop-file" (click)="input2.click()" type="button" [class.spinner]="loading">
+            <mat-icon>attach_file</mat-icon>
+            Attach File
+          </button>
+
+          <button mat-icon-button class="mobile-file" (click)="input2.click()" type="button" [class.spinner]="loading">
+            <mat-icon>attach_file</mat-icon>
+          </button>
+
+          <button mat-raised-button class="backward-button" matStepperPrevious type="button">
+            <mat-icon>arrow_backward</mat-icon>
+            Back
+          </button>
+          <button mat-raised-button matStepperNext type="button">Next
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
+        </div>
+
+      </mat-step>
+
+      <mat-step label="Terms of participation" [hasError]="hasErrorThirdTab()" errorMessage="Check for errors">
+
+        <div formArrayName="requirements" class="requirements">
+
+          <button (click)="addRequirement()" type="button" mat-raised-button fxFlexAlign="start" class="round-button">
+            <mat-icon>add</mat-icon>
+            New Requirement
+          </button>
+
+          <div *ngFor="let requirement of formGroup.get('requirements')['controls']; let i=index">
+            <div [formGroupName]="i" class="mt-1">
+              <mat-divider></mat-divider>
+              <div fxLayout="row" fxLayoutAlign="space-between end">
+                <h2>Requirement {{i + 1}}</h2>
+                <button (click)="removeRequirement(i)" mat-icon-button type="button">
+                  <mat-icon class="delete-button">delete</mat-icon>
+                </button>
+              </div>
+
+              <mat-form-field>
+                <mat-label>Education</mat-label>
+                <mat-chip-list #chipList>
+                  <mat-chip *ngFor="let item of requirement.value.education" [selectable]="selectable"
+                    [removable]="removable" (removed)="removeEducation(item, requirement)">
+                    {{item.name}}
+                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                  </mat-chip>
+                  <input placeholder="Enter keyword here... - Press ENTER or ' , ' to seperate"
+                    [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addEducation($event, requirement)">
+                </mat-chip-list>
+                <mat-hint>Choose a category that mostly aligns with your contest</mat-hint>
+              </mat-form-field>
+
+
+              <mat-form-field>
+                <mat-label>Skills</mat-label>
+                <mat-chip-list #chipList1>
+                  <mat-chip *ngFor="let item of requirement.value.skills" [selectable]="selectable"
+                    [removable]="removable" (removed)="removeSkills(item,requirement)">
+                    {{item.name}}
+                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                  </mat-chip>
+                  <input placeholder="Enter keyword here... - Press ENTER or ' , ' to seperate"
+                    [matChipInputFor]="chipList1" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addSkills($event,requirement)">
+                </mat-chip-list>
+
+                <mat-hint>Choose a category that mostly aligns with your contest</mat-hint>
+              </mat-form-field>
+
+
+              <div class="quill-editor">
+                <h3 class="quill-editor-header">Experience</h3>
+                <quill-editor formControlName="experience"></quill-editor>
+              </div>
+
+              <div class="quill-editor">
+                <h3 class="quill-editor-header">Other Requirements</h3>
+                <quill-editor formControlName="other"></quill-editor>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div fxLayout="column" fxLayoutAlign="center center">
+          <mat-form-field>
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+              <input matStartDate placeholder="Start date" formControlName="startdate">
+              <input matEndDate placeholder="End date" formControlName="enddate">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          </mat-form-field>
+        </div>
+
+
+        <div class="quill-editor">
+          <h3 class="quill-editor-header">Evaluation Process</h3>
+          <quill-editor formControlName="evaluation"></quill-editor>
+          <mat-hint *ngIf="!formGroup.controls['evaluation'].hasError('serverError')">
+            Chose a brief, clear abstract, that gives a good a good idea of the essence of your contest
+          </mat-hint>
+          <mat-error *ngIf="formGroup.controls['evaluation'].hasError('serverError')">
+            {{formGroup.controls['evaluation'].getError('serverError')}}
+          </mat-error>
+        </div>
+
+        <div fxLayout="column" fxLayoutAlign="center center">
+          <mat-form-field>
+            <mat-label>Title</mat-label>
+            <input matInput placeholder="Short name / title of the reward">
+          </mat-form-field>
+        </div>
+
+        <div class="quill-editor">
+          <h3 class="quill-editor-header">Reward</h3>
+          <quill-editor formControlName="reward"></quill-editor>
+          <mat-hint *ngIf="!formGroup.controls['reward'].hasError('serverError')">
+            Chose a brief, clear abstract, that gives a good a good idea of the essence of your contest
+          </mat-hint>
+          <mat-error *ngIf="formGroup.controls['reward'].hasError('serverError')">
+            {{formGroup.controls['reward'].getError('serverError')}}
+          </mat-error>
+        </div>
+
+        <div class="footer-button">
+          <button mat-raised-button matStepperPrevious class="backward-button" type="button">
+            <mat-icon>arrow_backward</mat-icon>Back
+          </button>
+          <button mat-flat-button type="submit" (click)="submit()">Publish</button>
+        </div>
+
+      </mat-step>
+
+    </form>
+
+  </mat-horizontal-stepper>
+
+</div>

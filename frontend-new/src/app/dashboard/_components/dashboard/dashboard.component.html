@@ -1,0 +1,362 @@
+<div class="container">
+  <div class="flex flex-row">
+    <div class="flex flex-col w-1/5" id="leftcolumn">
+      
+      <div class="card profile" id="profile">
+        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center">
+          <div>
+            <div fxFlexAlign="center">
+              <img [src]="profilePictureUrl | secure | async" style=" height: 40px;width: 40px; border-radius: 50%">
+            </div>
+            <div>
+              <div style="color: #39527b;font-size: 16px;margin: 5px">{{profile?.firstname}} {{profile?.lastname}}</div>
+              <div style="color: #39527b;font-weight: 300;font-size: .875rem; margin: 5px">Technician</div>
+            </div>
+          </div>
+          <div fxLayoutGap="10px">
+            <img src="../../../../assets/facebook.svg" alt="photo" class="social-icon facebook">
+            <img src="../../../../assets/twitter.svg" alt="photo" class="social-icon twitter">
+            <img src="../../../../assets/linkedin.svg" alt="photo" class="social-icon linkedin">
+            <img src="../../../../assets/insta.svg" alt="photo" class="social-icon insta">
+          </div>
+        </div>
+      </div>
+      <div class="card" id="activities">
+        <div class="widget-header" fxLayout="row">
+          <h3>Activities</h3>
+          <span class="spacer"></span>
+          <div fxFlexAlign="center">
+            <button mat-icon-button (click)="getActivities()">
+              <mat-icon class="icon">cached</mat-icon>
+            </button>
+            <!--            <span class="text" style="margin: 0 10px">Filters</span>-->
+            <button mat-icon-button [matMenuTriggerFor]="menu1">
+              <mat-icon class="icon">more_vert</mat-icon>
+            </button>
+            <mat-menu #menu1="matMenu">
+              <button mat-menu-item>
+                <span>Option 1</span>
+              </button>
+              <button mat-menu-item>
+                <span>Option 2</span>
+              </button>
+              <button mat-menu-item>
+                <span>Option 3</span>
+              </button>
+            </mat-menu>
+          </div>
+        </div>
+        <div style="border-top: solid thin #eeeeee; padding: 0 20px" fxLayout="row" fxLayout.xs="column"
+             fxLayoutAlign="space-between start">
+          <div fxFlex="50">
+            <div *ngFor="let skill of skills"
+                 style="font-size: 14px;color: #39527b;font-weight: 300">{{skill.skill}}</div>
+          </div>
+          <div fxFlex="50" style="font-size: 14px;color: #39527b;">Achievements
+            <div *ngFor="let achievement of achievements">
+              <div style="font-size: 12px;color: #39527b">{{achievement.ts}}</div>
+              <div style="color: #39527b;font-weight: 300;font-size: .875rem">{{achievement.txtbody}}</div>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card" id="leaderboard">
+        <div class="widget-header" fxLayout="row">
+          <h3>Leader Board</h3>
+          <span class="spacer"></span>
+          <div fxFlexAlign="center">
+            <button mat-icon-button (click)="getLeaderboard()">
+              <mat-icon class="icon">cached</mat-icon>
+            </button>
+            <span class="text" style="margin: 0 5px">Show by</span>
+            <button mat-icon-button class="text" [matMenuTriggerFor]="menu2">
+              <mat-icon class="icon">more_vert</mat-icon>
+            </button>
+            <mat-menu #menu2="matMenu">
+              <button mat-menu-item>
+                <span>guild</span>
+              </button>
+              <button mat-menu-item>
+                <span>achievements</span>
+              </button>
+              <button mat-menu-item>
+                <span>skills</span>
+              </button>
+            </mat-menu>
+          </div>
+        </div>
+        <div *ngFor="let feed of leaderboard" class="widget">
+          <h6 style="font-size: .875rem; color:#39527b;margin-bottom: 2px">{{feed.name}}</h6>
+          <p style="font-size: 12px;color: #868e96; margin-bottom: 2px">{{feed.showtext}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="rightcolumn" id="rightcolumn">
+      <div class="card" id="challengesboard">
+        <div class="widget-header" fxLayout="row">
+          <h3>Challenges Board</h3>
+          <span class="spacer"></span>
+          <div fxFlexAlign="center">
+            <button mat-icon-button (click)="getChallenges()">
+              <mat-icon class="icon">cached</mat-icon>
+            </button>
+            <span class="text" style="margin: 0 5px">Filters</span>
+            <button mat-icon-button class="text" [matMenuTriggerFor]="menu3">
+              <mat-icon class="icon">more_vert</mat-icon>
+            </button>
+            <mat-menu #menu3="matMenu">
+              <button mat-menu-item>
+                <span>Popup filter 1</span>
+              </button>
+              <button mat-menu-item>
+                <span>Popup filter 2</span>
+              </button>
+              <button mat-menu-item>
+                <span>Popup filter 3</span>
+              </button>
+            </mat-menu>
+          </div>
+        </div>
+        <div class="widget" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center">
+          <div>
+            <mat-icon style="color: #39527b">laptop</mat-icon>
+            <span style="margin: 20px;color:#39527b;font-size: 50px ">{{challengesCounts?.openprojects}}</span>
+            <span style="vertical-align: top;color:#39527b;font-size: 16px">Open Projects</span>
+          </div>
+          <div fxLayoutAlign="end start" fxLayout="row" fxLayoutGap="20px">
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <h3>{{challengesCounts?.activeprojects}}</h3>
+              <span style="color:#fec952;font-size: 14px ">Active</span>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <h3>23</h3>
+              <span style="color:#6bc84c;font-size: 14px ">In progress</span>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <h3>{{challengesCounts?.completedprojects}}</h3>
+              <span style="color:#ef7073;font-size: 14px ">Complete</span>
+            </div>
+          </div>
+        </div>
+        <div class="widget">
+          <mat-list>
+            <mat-list-item *ngFor="let project of projects">
+              <mat-icon mat-list-icon class="text">folder</mat-icon>
+              <div mat-line style="font-size: 12px;color: #868e96">{{project.ts}}</div>
+              <div mat-line style="color: #39527b;font-weight: 300;font-size: .875rem">{{project.showtext}}</div>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </div>
+
+      <div class="card" id="createcontent">
+        <div class="widget-header" fxLayout="row">
+          <h3>Create Content</h3>
+        </div>
+        <div fxLayoutAlign="center center" fxLayout="row" fxLayoutGap="20px" style="padding: 10px" class="widget">
+          <button fxFlex="15" fxFlex.xs="30" mat-stroked-button color="primary" (click)="createArticle()"
+                  *ngIf="articleButton">
+            Article
+          </button>
+          <button fxFlex="15" fxFlex.xs="30" mat-stroked-button color="accent" *ngIf="contestButton"
+                  (click)="createContest()">
+            Contest
+          </button>
+          <button fxFlex="15" fxFlex.xs="30" mat-stroked-button color="warn" *ngIf="projectButton">Project</button>
+        </div>
+      </div>
+
+      <div class="card" id="newsfeed">
+        <div class="widget-header" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+          <h3>News Feed</h3>
+          <div fxLayoutAlign="center center" fxLayout="row" fxLayoutGap="20px">
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <h3>{{newsfeedCounts?.new}}</h3>
+              <p style="color:#fec952;font-size: 14px">Today</p>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <h3>{{newsfeedCounts?.older}}</h3>
+              <p style="color:#6bc84c;font-size: 14px ">Older</p>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <h3>{{newsfeedCounts?.read}}</h3>
+              <p style="color:#ef7073;font-size: 14px ">Read</p>
+            </div>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="center center">
+            <button mat-icon-button (click)="getNewsfeed()">
+              <mat-icon class="icon">cached</mat-icon>
+            </button>
+            <!--            <span class="text" style="margin: 0 5px">Filters</span>-->
+            <button mat-icon-button class="text" [matMenuTriggerFor]="menu4">
+              <mat-icon class="icon">more_vert</mat-icon>
+            </button>
+            <mat-menu #menu4="matMenu">
+              <button mat-menu-item>
+                <span>Option 1</span>
+              </button>
+              <button mat-menu-item>
+                <span>Option 2</span>
+              </button>
+              <button mat-menu-item>
+                <span>Option 3</span>
+              </button>
+            </mat-menu>
+          </div>
+        </div>
+
+        <div class="newsfeed-card" fxLayout="column" fxLayoutGap="20px">
+          <div *ngFor="let newsfeed of newsfeedHomepage" class="newsfeed">
+            <div class="newsfeed-header" fxLayout="row" fxLayoutAlign="space-between center">
+              <h3 style="overflow: auto">{{newsfeed.headerline}}</h3>
+              <button mat-icon-button *ngIf="newsfeed.entity.editable"
+                      (click)="readArticleContest(newsfeed.objectid,newsfeed.type)">
+                <mat-icon class="edit-button">edit</mat-icon>
+              </button>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start start">
+              <div fxFlex="25" class="newsfeed-entity-card" fxLayout="row" fxLayoutGap="10px"
+                   fxLayoutAlign="start center" fxFlexAlign.xs="stretch">
+                <div>
+                  <img [src]="getUrl(newsfeed.entity.profilepicture) | secure | async" alt="photo"
+                       *ngIf="newsfeed.entity.profilepicture"
+                       style="width: 50px;height: 50px; border-radius: 50%">
+                  <mat-icon style="width: 100%;height: 100%; font-size: 50px; color: #39527b"
+                            *ngIf="!newsfeed.entity.profilepicture">
+                    account_circle
+                  </mat-icon>
+                </div>
+                <div fxLayout="column" fxLayoutGap="10px">
+                  <div style="color: #39527b;font-size: 16px">{{newsfeed?.entity.names}}</div>
+                  <div style="color: #39527b;font-size: .875rem;font-weight: 300">{{newsfeed?.entity.summary}}</div>
+                  <div fxLayoutGap="10px">
+                    <a href="{{newsfeed.entity.sociallinks.facebook}}" target="_blank">
+                      <img src="../../../../assets/facebook.svg" alt="photo" class="social-icon facebook">
+                    </a>
+                    <a href="{{newsfeed.entity.sociallinks.twitter}}" target="_blank">
+                      <img src="../../../../assets/twitter.svg" alt="photo" class="social-icon twitter">
+                    </a>
+                    <a href="{{newsfeed.entity.sociallinks.linkedin}}" target="_blank">
+                      <img src="../../../../assets/linkedin.svg" alt="photo" class="social-icon linkedin">
+                    </a>
+                    <a href="{{newsfeed.entity.sociallinks.instagram}}" target="_blank">
+                      <img src="../../../../assets/insta.svg" alt="photo" class="social-icon insta">
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div fxFlex="65" *ngIf="newsfeed.mainimage" (click)="readArticleContest(newsfeed.objectid,newsfeed.type)"
+                   style="cursor: pointer">
+                <!--                <div [innerHTML]="bypassSecurityTrustHtmlCustom(newsfeed.showtext)" class="text"-->
+                <!--                     style="overflow: auto"></div>-->
+                <quill-view-html [content]="newsfeed.showtext" class="custom-pointer-cursor"
+                                 (click)="readArticleContest(newsfeed.objectid,newsfeed.type)"></quill-view-html>
+              </div>
+
+              <div fxFlex="75" *ngIf="!newsfeed.mainimage" (click)="readArticleContest(newsfeed.objectid,newsfeed.type)"
+                   style="cursor: pointer">
+                <!--                <div [innerHTML]="bypassSecurityTrustHtmlCustom(newsfeed.showtext)" class="text"-->
+                <!--                     style="overflow: auto"></div>-->
+                <quill-view-html [content]="newsfeed.showtext" class="custom-pointer-cursor"
+                                 (click)="readArticleContest(newsfeed.objectid,newsfeed.type)"></quill-view-html>
+              </div>
+
+              <div fxFlex="10" *ngIf="newsfeed.mainimage" (click)="readArticleContest(newsfeed.objectid,newsfeed.type)"
+                   style="cursor: pointer">
+                <img [src]="getUrl(newsfeed.mainimage) | secure | async" alt="photo" id="photo"
+                     style="max-width: 100%;max-height: 100%">
+              </div>
+            </div>
+            <div class="newsfeed-footer" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+              <mat-hint>{{newsfeed?.entity.likescount}} Likes</mat-hint>
+              <button mat-icon-button matTooltip="Like" [matTooltip]="newsfeed?.entity.is_liked? 'Unlike': 'Like'"
+                      (click)="likeUnlike(newsfeed)">
+                <mat-icon class="edit-button" [style.color]="newsfeed?.entity.is_liked? '#3c9394': ''">thumb_up_off_alt</mat-icon>
+              </button>
+              <mat-hint class="comments" [matMenuTriggerFor]="readComments"
+                        (click)="getComments(newsfeed?.objectid)">{{newsfeed?.entity.commentcount}} Comments
+              </mat-hint>
+              <button mat-icon-button matTooltip="Comment" [matMenuTriggerFor]="postComment">
+                <mat-icon class="edit-button">comment</mat-icon>
+              </button>
+              <button mat-icon-button matTooltip="Share" [matMenuTriggerFor]="shareMenu">
+                <mat-icon class="edit-button">share</mat-icon>
+              </button>
+              <button mat-icon-button matTooltip="Send" [matMenuTriggerFor]="sendMenu">
+                <mat-icon class="edit-button">send</mat-icon>
+              </button>
+            </div>
+
+            <mat-menu #readComments="matMenu" class="custom-mat-menu">
+              <div style="padding: 15px 20px 0 20px">
+                <div *ngFor="let comment of comments" class="comment-unit">
+                  <mat-hint>{{comment.ts | date: 'medium'}}</mat-hint>
+                  <div>{{comment.comment}}</div>
+                </div>
+              </div>
+            </mat-menu>
+
+            <mat-menu #postComment="matMenu" class="custom-mat-menu">
+              <form [formGroup]="commentForm" style="padding: 0 20px" fxLayout="column"
+                    (click)="$event.stopPropagation()" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <mat-form-field class="custom-form-field" appearance="outline">
+                  <mat-label>Comment</mat-label>
+                  <textarea matInput type="text" placeholder="Write a comment" formControlName="comment"></textarea>
+                </mat-form-field>
+
+                <button type="button" mat-stroked-button (click)="comment(newsfeed?.objectId)">Comment</button>
+              </form>
+            </mat-menu>
+
+            <mat-menu #shareMenu="matMenu" class="custom-mat-menu">
+              <form [formGroup]="shareForm" style="padding: 0 20px" (click)="$event.stopPropagation()">
+                <p>Share to:</p>
+                <div fxLayout="column" fxLayoutAlign="start center">
+                  <ng-select [items]="myNetwork" class="custom-ng-select" appearance="outline"
+                             appendTo="body"
+                             bindValue="uuid"
+                             bindLabel="name"
+                             [clearable]="true"
+                             formControlName="mynetwork"
+                             [notFoundText]="'No Results'"
+                             typeToSearchText="Search"
+                             placeholder="My Network">
+                  </ng-select>
+
+                  <button type="button" mat-stroked-button (click)="share()">Share</button>
+                </div>
+              </form>
+            </mat-menu>
+
+            <mat-menu #sendMenu="matMenu" class="custom-mat-menu">
+              <form [formGroup]="sendForm" style="padding: 0 20px" (click)="$event.stopPropagation()">
+                <p>Send to:</p>
+                <div fxLayout="column" fxLayoutAlign="start center">
+                  <ng-select [items]="myNetwork" class="custom-ng-select" appearance="outline"
+                             appendTo="body"
+                             bindValue="uuid"
+                             bindLabel="name"
+                             [clearable]="true"
+                             formControlName="userid"
+                             [notFoundText]="'No Results'"
+                             typeToSearchText="Search"
+                             placeholder="Person">
+                  </ng-select>
+
+                  <button type="button" mat-stroked-button (click)="send()">Send</button>
+                </div>
+              </form>
+            </mat-menu>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--div class="footer">
+  <div class="text">A-GORA GRAPH LTD © Copywrite 2018</div>
+</div-->
+

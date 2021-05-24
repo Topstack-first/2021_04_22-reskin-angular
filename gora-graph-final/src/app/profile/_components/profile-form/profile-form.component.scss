@@ -1,0 +1,153 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.container {
+  margin: auto;
+  background: rgba(219, 236, 255, 0.4);
+  border-radius: 30px;
+  width: calc(98% - 6px);
+  height: 98%;
+  top: 1%;
+  position: relative;
+}
+
+.card {
+  position: relative;
+  width: 53%;
+  height: 85%;
+  background: #FFFFFF;
+  border-radius: 24px;
+  top: 8%;
+  margin: auto;
+  overflow-y: auto;
+}
+
+.card-header {
+  background: linear-gradient(0deg, #008D91, #008D91);
+  padding: 40px;
+}
+
+.organization-button {
+  position: relative;
+  width: 189px;
+  height: 32px;
+  left: calc(50% - 189px/2 - 105.5px);
+  top: calc(50% - 32px/2 - 224.5px);
+
+  background: #016270;
+  border-radius: 40px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  color: #fff;
+  font-size: 14px;
+  line-height: 17px;
+
+  .mat-icon {
+    left: 5px;
+    top: 5px;
+    position: relative;
+  }
+}
+
+.export-button {
+  position: relative;
+  width: 143px;
+  height: 32px;
+  left: calc(50% - 143px/2 + -97.5px);
+  top: calc(50% - 32px/2 - 224.5px);
+
+  background: #016270;
+  box-sizing: border-box;
+  border-radius: 40px;
+
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  color: #fff;
+
+  .mat-icon {
+    top: 5px;
+    position: relative;
+  }
+}
+
+.middle {
+  display: none;
+  position: relative;
+}
+
+.img-container {
+  width: 100px;
+  height: 100px;
+  left: calc(50% - 100px/2 - 7px);
+  top: -36px;
+  position: relative;
+  background: white;
+  border-radius: 50%;
+}
+
+.mat-form-field {
+  width: 400px;
+}
+
+.add-btn {
+  background: #016270;
+  height: 46px;
+  width: 93px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 28px;
+  float: right;
+  right: calc(50% - 195px);
+  top: 20px;
+  letter-spacing: 0.15px;
+}
+
+
+@media screen and (max-width: 767px) {
+  .container {
+    border-radius: 0;
+    width: 100%;
+    height: 100%;
+    top: 0;
+  }
+
+  .card {
+    width: 98%;
+    height: 98%;
+    top: 1%;
+  }
+
+  .organization-button {
+    left: calc(50% - 189px/2);
+  }
+
+  .export-button {
+    margin-top: 5px;
+    left: calc(50% - 143px/2 + -1.5px);
+  }
+
+  .card-header {
+    padding: 30px;
+  }
+
+  .img-container {
+    top: -21px;
+  }
+
+  .add-btn {
+    right: calc(50% - 45px)
+  }
+
+  .mat-form-field {
+    width: 290px;
+  }
+}

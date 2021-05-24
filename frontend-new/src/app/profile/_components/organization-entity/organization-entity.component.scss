@@ -1,0 +1,20 @@
+.logo-container {
+  text-align: center;
+  padding: 10px;
+  border-radius: 15px;
+  background-color: #f7f7f7;
+  margin: 20px 0;
+}
+
+.expandable-icon {
+  color: #868e96;
+  padding: 10px;
+}
+
+.expandable-icon:hover {
+  border-radius: 50px;
+  background-color: #f7f7f7;
+  color: black;
+  font-size: 26px;
+  cursor: pointer;
+}

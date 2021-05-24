@@ -1,0 +1,76 @@
+<div class="main-div">
+  <mat-card class="container mat-elevation-z3">
+    <div style="text-align: end">
+      <button mat-stroked-button class="action-btn search-bar-button" (click)="goBack()" style="margin-bottom: 20px">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Go Back</span>
+      </button>
+    </div>
+    <mat-divider></mat-divider>
+    <div fxLayout="row" style="margin-top: 20px">
+      <div fxFlex="50">
+        <h1>{{article?.title}}</h1>
+        <mat-hint>{{article?.ts | date: 'medium'}}</mat-hint>
+        <br>
+        <mat-hint>Category: {{article?.category}}</mat-hint>
+        <div style="margin-top: 20px">
+          <h3>Authors:</h3>
+          <div fxLayout="row-wrap" fxLayoutGap="10px">
+            <p *ngFor="let author of article?.authorship.authors">{{author.name}},</p>
+          </div>
+        </div>
+      </div>
+      <div fxFlex="50" fxLayout="row" fxLayoutAlign="end start">
+        <div *ngFor="let i of list" class="logo-container">
+          <img [src]="getUrl(article?.mainimage) | secure | async" style=" max-height: 200px">
+        </div>
+      </div>
+    </div>
+
+    <div *ngFor="let file of files" class="file" fxLayout="row" fxLayoutAlign="space-between center">
+      <a [href]="getUrl(file.id) | secure | async" download="{{file.name}}">
+        <span>{{file.name}}</span>
+        <span class="file-size">({{file.sizebytes | fileSize}})</span>
+      </a>
+    </div>
+
+    <div>
+      <h2>Abstract</h2>
+      <quill-view-html [content]="article?.abstract"></quill-view-html>
+    </div>
+
+    <div>
+      <h3>Keywords:</h3>
+      <div fxLayout="row-wrap" fxLayoutGap="10px">
+        <p *ngFor="let keyword of article?.keywords">{{keyword.keyword}},</p>
+      </div>
+    </div>
+
+    <div>
+      <h2>Content</h2>
+      <quill-view-html [content]="article?.content"></quill-view-html>
+    </div>
+
+    <div>
+      <h2>Bibliography</h2>
+      <quill-view-html [content]="article?.bibliography"></quill-view-html>
+    </div>
+
+    <mat-divider></mat-divider>
+    <div class="social-info" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <mat-hint>{{article?.reads}} Reads</mat-hint>
+      <mat-hint>{{article?.numlikes}} Likes</mat-hint>
+      <mat-hint class="comments" [matMenuTriggerFor]="readComments">{{article?.numcomments}} Comments</mat-hint>
+      <mat-hint>{{article?.numshares}} Shares</mat-hint>
+    </div>
+
+    <mat-menu #readComments="matMenu" class="custom-mat-menu">
+      <div style="padding: 15px 20px 0 20px">
+        <div *ngFor="let comment of comments" class="comment-unit">
+          <mat-hint>{{comment.ts | date: 'medium'}}</mat-hint>
+          <div>{{comment.comment}}</div>
+        </div>
+      </div>
+    </mat-menu>
+  </mat-card>
+</div>

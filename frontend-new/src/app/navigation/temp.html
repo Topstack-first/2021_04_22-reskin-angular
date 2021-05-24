@@ -1,0 +1,241 @@
+<div class="container w-full skin">
+    <mat-card class="flex container md:w-11/12 md:h-5/6 m-auto">
+      <mat-toolbar class="rounded">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <img alt="icon" src="../../assets/logo-final.png" (click)="getUserName()" class="logo" routerLink="dashboard">
+    
+            <div class="border-space" [fxHide.xs]="true">
+              <button mat-icon-button class="hover-color" (click)="openNotificationsDialog()">
+                <mat-icon [matBadge]="notificationCount" matBadgeSize="small" matBadgePosition="below after"
+                          matBadgeColor="accent">
+                  notifications_none
+                </mat-icon>
+              </button>
+            </div>
+    
+            <div class="border-space" [fxHide.xs]="true">
+              <button mat-icon-button class="hover-color" (click)="openMailDialog()">
+                <mat-icon [matBadge]="messagesCount" matBadgeSize="small" matBadgePosition="below after"
+                          matBadgeColor="primary">
+                  mail_outline
+                </mat-icon>
+              </button>
+            </div>
+    
+            <div class="hover-color border-space-1 text" [matMenuTriggerFor]="languageMenu" [fxHide.xs]="true">English
+              <mat-icon style="width: 20px; vertical-align: middle">keyboard_arrow_down</mat-icon>
+            </div>
+    
+            <mat-menu #languageMenu="matMenu">
+              <button mat-menu-item>English</button>
+              <button mat-menu-item>French</button>
+            </mat-menu>
+    
+            <div class="hover-color text" (click)="openChallengesDialog()" [fxHide.xs]="true">Challenges
+              <mat-icon style="width: 20px; vertical-align: middle">keyboard_arrow_down
+              </mat-icon>
+            </div>
+          </div>
+    
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" *ngIf="isEntity" style="cursor: pointer"
+               [routerLink]="'entity/homepage/'+ entityId">
+            <h1 style="margin: 0">{{userName}}</h1>
+            <img [src]="pictureUrl | secure | async" style="max-height: 30px" *ngIf="hasLogo">
+          </div>
+          <!--      <span class="spacer"></span>-->
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <div class="border-space-1" [fxHide.xs]="true">
+              <mat-form-field appearance="outline" class="search-bar">
+                <input type="text" matInput placeholder="Search">
+                <mat-icon matSuffix>search</mat-icon>
+              </mat-form-field>
+            </div>
+    
+            <div class="hover-color border-space-1 text" [matMenuTriggerFor]="menu" [fxHide.xs]="true">
+              <img [src]="pictureUrl | secure | async" *ngIf="hasLogo"
+                   style="width: 20px; vertical-align: middle;border-radius: 50%">
+              {{userName}}
+              <mat-icon style="width: 20px; vertical-align: middle">keyboard_arrow_down</mat-icon>
+            </div>
+            <mat-menu #menu="matMenu">
+              <div style="border-bottom: #eeeeee solid thin">
+                <button mat-menu-item *ngFor="let entity of entityList" [matMenuTriggerFor]="profileMenu"
+                        (click)="getEntity(entity.eid)"
+                        [routerLink]="'entity/homepage/'+ entity.eid">{{entity.orgname}}</button>
+              </div>
+              <button mat-menu-item [matMenuTriggerFor]="profileMenu" (click)="getUserName()"
+                      [routerLink]="'/dashboard'">{{profile?.firstname}} {{profile?.lastname}}</button>
+            </mat-menu>
+    
+            <mat-menu #profileMenu="matMenu" xPosition="before">
+              <button mat-menu-item (click)="openPrifileForm()">
+                <mat-icon>account_circle</mat-icon>
+                <span>My Profile</span>
+              </button>
+              <button mat-menu-item>
+                <mat-icon>list</mat-icon>
+                <span>My Tasks</span>
+              </button>
+              <button mat-menu-item>
+                <mat-icon>email</mat-icon>
+                <span>My Inbox</span>
+              </button>
+              <button mat-menu-item (click)="logout()">
+                <mat-icon>exit_to_app</mat-icon>
+                <span>Logout</span>
+              </button>
+            </mat-menu>
+    
+            <!--div [fxHide.xs]="true">
+              <button mat-icon-button class="hover-color text" (click)="toggle()">
+                <mat-icon>reorder</mat-icon>
+              </button>
+            </div-->
+    
+            <div [fxHide]="true" [fxShow.xs]="true">
+              <button mat-icon-button class="hover-color text" (click)="secondToolbar= !secondToolbar">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+            </div>
+          </div>
+        </mat-toolbar-row>
+    
+        <!--Mobile toolbar-->
+        <mat-toolbar-row [fxHide]="true" [fxShow.xs]="secondToolbar" fxLayout="row" fxLayoutAlign="space-around center">
+    
+          <div class="border-space-mobile" fxLayoutAlign="center center">
+            <button mat-icon-button class="hover-color text" (click)="openNotificationsDialogMobile()">
+              <mat-icon [matBadge]="notificationCount" matBadgeSize="small" matBadgePosition="below after"
+                        matBadgeColor="accent">
+                notifications_none
+              </mat-icon>
+            </button>
+          </div>
+    
+          <div class="border-space-mobile" fxLayoutAlign="center center">
+            <button mat-icon-button class="hover-color text" (click)="openMailDialogMobile()">
+              <mat-icon [matBadge]="messagesCount" matBadgeSize="small" matBadgePosition="below after"
+                        matBadgeColor="primary">
+                mail_outline
+              </mat-icon>
+            </button>
+          </div>
+    
+          <div class="border-space-mobile" fxLayoutAlign="center center">
+            <button mat-icon-button class="hover-color text" [matMenuTriggerFor]="languageMenu">
+              <mat-icon style="width: 20px; vertical-align: middle">language</mat-icon>
+            </button>
+    
+            <mat-menu #languageMenu="matMenu">
+              <button mat-menu-item>
+                <span>English</span>
+              </button>
+              <button mat-menu-item>
+                <span>French</span>
+              </button>
+            </mat-menu>
+          </div>
+    
+          <div class="hover-color border-space-mobile text" fxLayoutAlign="center center"
+               (click)="openChallengesDialogMobile()">Challenges
+            <mat-icon style="width: 20px; vertical-align: middle">keyboard_arrow_down</mat-icon>
+          </div>
+    
+          <div class="border-space-mobile" fxLayoutAlign="center center">
+            <button mat-icon-button class="hover-color text" [matMenuTriggerFor]="menu">
+              <mat-icon style="width: 20px; vertical-align: middle">account_circle</mat-icon>
+            </button>
+    
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>
+                <mat-icon>account_circle</mat-icon>
+                <span>My Profile</span>
+              </button>
+              <button mat-menu-item>
+                <mat-icon>list</mat-icon>
+                <span>My Tasks</span>
+              </button>
+              <button mat-menu-item>
+                <mat-icon>email</mat-icon>
+                <span>My Inbox</span>
+              </button>
+              <button mat-menu-item (click)="logout()">
+                <mat-icon>exit_to_app</mat-icon>
+                <span>Logout</span>
+              </button>
+            </mat-menu>
+          </div>
+    
+    
+          <!--button mat-icon-button class="hover-color text" (click)="toggle()">
+            <mat-icon>reorder</mat-icon>
+          </button-->
+        </mat-toolbar-row>
+    
+      </mat-toolbar>
+    
+      <mat-sidenav-container class="sidenav-container" hasBackdrop="false">
+    
+        <mat-sidenav #snav mode="over" position="end" fixedTopGap="64" class="sidenav" [(opened)]="opened">
+    
+          <ng-container *ngIf="settingsOpened">
+            <mat-tab-group mat-align-tabs="center">
+              <mat-tab>
+                <ng-template mat-tab-label class="tabs">
+                  <mat-icon>chat_bubble</mat-icon>
+                </ng-template>
+                Content 100
+              </mat-tab>
+              <mat-tab>
+                <ng-template mat-tab-label class="tabs">
+                  <mat-icon>notifications</mat-icon>
+                </ng-template>
+                Content 200
+              </mat-tab>
+              <mat-tab class="tabs">
+                <ng-template mat-tab-label class="tabs">
+                  <mat-icon>settings</mat-icon>
+                </ng-template>
+                Content 300
+              </mat-tab>
+            </mat-tab-group>
+          </ng-container>
+    
+          <ng-container *ngIf="!settingsOpened">
+            <mat-tab-group mat-align-tabs="center">
+              <mat-tab>
+                <ng-template mat-tab-label class="tabs">
+                  <mat-icon>chat_bubble</mat-icon>
+                </ng-template>
+                Content 1
+              </mat-tab>
+              <mat-tab>
+                <ng-template mat-tab-label class="tabs">
+                  <mat-icon>notifications</mat-icon>
+                </ng-template>
+                Content 2
+              </mat-tab>
+              <mat-tab class="tabs">
+                <ng-template mat-tab-label class="tabs">
+                  <mat-icon>settings</mat-icon>
+                </ng-template>
+                Content 3
+              </mat-tab>
+            </mat-tab-group>
+          </ng-container>
+    
+        </mat-sidenav>
+    
+        <mat-sidenav-content>
+          <router-outlet (activate)="activatedComponent($event)"></router-outlet>
+          <!--button mat-raised-button class="float text" (click)="toggleSettings()"
+                  [class.float-left]="settingsOpened">
+            <mat-icon>settings</mat-icon>
+          </button-->
+        </mat-sidenav-content>
+    
+      </mat-sidenav-container>
+    </mat-card>
+  </div>
+  

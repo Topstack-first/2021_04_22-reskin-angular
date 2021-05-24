@@ -1,0 +1,15 @@
+.notification-header {
+  background-color: #fbfbfb;
+  padding: 10px;
+}
+
+.notification {
+  background-color: white;
+  padding: 10px;
+  border-top: #eeeeee solid thin;
+  cursor: pointer;
+}
+
+.notification:hover {
+  background-color: #f7f7f7;
+}

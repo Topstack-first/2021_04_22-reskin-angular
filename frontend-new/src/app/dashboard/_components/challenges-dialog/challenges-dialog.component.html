@@ -1,0 +1,28 @@
+<div class="challenge" fxLayout="row" fxLayoutGap="20px" fxLayout.xs="column">
+  <div fxFlex="30">
+    <h3>Featured Challenges</h3>
+    <div *ngFor="let challenge of challenges" fxLayout="row" fxLayoutGap="20px"
+         fxLayoutAlign="start center" style="border-bottom: #eeeeee solid thin">
+      <div>
+        <img [src]="getUrl(challenge.image) | secure | async" alt="photo"
+             style="max-width: 80px;max-height: 80px">
+      </div>
+      <div>
+        <h6 style="font-size: .875rem; color:#39527b;margin-bottom: 2px">{{challenge.subject}}</h6>
+        <p
+          style="font-size: 12px;color: #868e96; margin-bottom: 2px">{{challenge.ts | customDate | date: 'dd MMM yyyy HH:mm:ss'}}</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div fxFlex="50">
+    <img [src]="getUrl(image) | secure | async" alt="photo" style="max-width: 100%" *ngIf="image">
+  </div>
+
+  <div fxFlex="20" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center stretch">
+    <button mat-stroked-button color="primary" (click)="createArticle()" *ngIf="articleButton">Article</button>
+    <button mat-stroked-button color="accent" (click)="createContest()" *ngIf="contestButton">Contest</button>
+    <button mat-stroked-button color="warn" *ngIf="projectButton">Project</button>
+  </div>
+</div>

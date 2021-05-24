@@ -1,0 +1,515 @@
+<div class="grid-container">
+
+  <div [hidden]="isMobile && selectedTab !='profile'">
+
+    <input type="file" #input2 hidden accept="image/*" (change)="changeMainImage($event)">
+    <div *ngFor="let i of mainImageRefresh" (click)=input2.click() matTooltip="Click to change image">
+      <div *ngIf="!hasMainImage" class="cover-image"
+        [ngStyle]="{'background-image':'url(https://www.w3schools.com/howto/img_nature_wide.jpg)' }">
+      </div>
+
+      <div *ngIf="hasMainImage" class="cover-image"
+        [ngStyle]="{'background-image': 'url('+(this.pictureUrl + this.entity?.mainimage)+')'}">
+      </div>
+    </div>
+
+    <div class="profile-card">
+
+      <input type="file" #input1 hidden accept="image/*" (change)="changeLogo($event)">
+      <div *ngFor="let i of logoRefresh">
+        <div class="logo-container" (click)="input1.click()">
+          <div *ngIf="!hasLogo" class="image" [ngStyle]="{'background-image':'url(/assets/profile-image.svg)'}">
+          </div>
+          <div *ngIf="hasLogo" class="image"
+            [ngStyle]="{'background-image': 'url('+( getLogoUrl() | secure | async)+')'}"></div>
+          <div class="middle">
+            <mat-icon>camera_alt</mat-icon>
+            <div class="span">Change Logo</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-block">
+        <div class="name">{{entity?.orgname}}</div>
+        <div class="designation">{{entity?.website}}</div>
+        <div class="place">{{entity?.industry}}</div>
+      </div>
+
+      <!-- <div class="text-block">
+      <div class="name">{{entity?.orgname}}</div>
+      <div class="designation">{{entity?.website}}</div>
+      <div class="place">{{entity?.industry}}</div>
+      <div class="place">{{entity?.orgtype}}</div>
+      <div class="place">{{entity?.description}}</div>
+    </div> -->
+
+      <div class="social-block">
+        <button mat-icon-button>
+          <mat-icon svgIcon="instagram"></mat-icon>
+        </button>
+
+        <button mat-icon-button>
+          <mat-icon svgIcon="twitter"></mat-icon>
+        </button>
+
+        <button mat-icon-button>
+          <mat-icon svgIcon="facebook"></mat-icon>
+        </button>
+      </div>
+
+      <div class="activity-icon">
+        <button (click)="followUnfollow()">
+          <img src="/assets/follow-small.svg">
+          {{entity?.following ? 'Unfollow' : 'Follow'}}
+        </button>
+
+        <button [matMenuTriggerFor]="shareMenu">
+          <img src="/assets/share-small.svg">Share
+        </button>
+
+        <button (click)="report()">
+          <img src="/assets/report-small.svg">Report
+        </button>
+
+        <button [matMenuTriggerFor]="sendMenu">
+          <img src="/assets/message-small.svg">Message
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- <button mat-icon-button (click)="getNewsfeed()">
+    <mat-icon class="icon">cached</mat-icon>
+  </button> -->
+
+  <div class="row content-section">
+
+    <div class="leftcolumn">
+
+      <div id="newsfeed" [hidden]="isMobile && selectedTab!='newsfeed'">
+
+        <div class="newsfeed-card">
+
+          <div *ngFor="let newsfeed of newsfeeds" class="newsfeed">
+
+            <div class="like-status">
+              <span class="name">Gus Fring</span>
+              <span class="like">Likes this</span>
+
+              <button mat-icon-button class="post-settings">
+                <mat-icon svgIcon="postSettings"></mat-icon>
+              </button>
+            </div>
+
+            <!-- <div class="newsfeed-header">
+              <h3>{{newsfeed.headerline}}</h3>
+              <button mat-icon-button *ngIf="newsfeed.entity.editable"
+                (click)="readArticleContest(newsfeed.objectid,newsfeed.type)">
+                <mat-icon class="edit-button">edit</mat-icon>
+              </button>
+            </div> -->
+
+            <div class="post-image">
+              <img [src]="getUrl(newsfeed.entity.profilepicture) | secure | async" alt="photo"
+                *ngIf="newsfeed.entity.profilepicture">
+
+              <div class="name">{{newsfeed?.entity.names}}</div>
+              <div class="summary">{{newsfeed?.entity.summary}}</div>
+            </div>
+
+
+            <div *ngIf="newsfeed.mainimage" (click)="readArticleContest(newsfeed.objectid,newsfeed.type)">
+              <!--                <div [innerHTML]="bypassSecurityTrustHtmlCustom(newsfeed.showtext)" class="text"-->
+              <!--                     style="overflow: auto"></div>-->
+              <quill-view-html [content]="newsfeed.showtext" class="custom-pointer-cursor"
+                (click)="readArticleContest(newsfeed.objectid,newsfeed.type)"></quill-view-html>
+            </div>
+
+            <div *ngIf="!newsfeed.mainimage" (click)="readArticleContest(newsfeed.objectid,newsfeed.type)">
+              <!--                <div [innerHTML]="bypassSecurityTrustHtmlCustom(newsfeed.showtext)" class="text"-->
+              <!--                     style="overflow: auto"></div>-->
+              <quill-view-html [content]="newsfeed.showtext" class="custom-pointer-cursor"
+                (click)="readArticleContest(newsfeed.objectid,newsfeed.type)"></quill-view-html>
+            </div>
+
+            <!--  -->
+
+            <div class="content-image" *ngIf="newsfeed.mainimage"
+              (click)="readArticleContest(newsfeed.objectid,newsfeed.type)">
+              <img [src]="getUrl(newsfeed.mainimage) | secure | async" alt="photo" id="photo">
+            </div>
+
+            <div class="public-action">
+              <img src="/assets/thumb.svg" alt="content" id="content">
+              <img src="/assets/clap.svg" alt="content" id="content">
+              <img src="/assets/heart.svg" alt="content" id="content">
+              {{newsfeed?.entity.likescount}}
+            </div>
+
+
+
+
+            <!--<mat-hint class="comments" [matMenuTriggerFor]="readComments" (click)="getComments(newsfeed?.objectid)">
+                {{newsfeed?.entity.commentcount}} Comments
+              </mat-hint> -->
+
+            <div class="newsfeed-footer" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+
+              <div class="like">
+                <button mat-icon-button matTooltip="Like" [matTooltip]="newsfeed?.entity.is_liked? 'Unlike': 'Like'"
+                  (click)="likeUnlike(newsfeed)">
+                  <mat-icon class="edit-button" svgIcon="like" [style.color]="newsfeed?.entity.is_liked? '#3c9394': ''">
+                  </mat-icon>
+                </button>
+                <mat-hint>Likes</mat-hint>
+              </div>
+
+              <div class="comment">
+                <button mat-icon-button matTooltip="Comment" [matMenuTriggerFor]="postComment">
+                  <mat-icon class="edit-button" svgIcon="comment">comment</mat-icon>
+                </button>
+                <mat-hint>Comment</mat-hint>
+              </div>
+
+              <div class="shre">
+                <button mat-icon-button matTooltip="Share" [matMenuTriggerFor]="shareMenu">
+                  <mat-icon class="edit-button" svgIcon="share"></mat-icon>
+                </button>
+                <mat-hint>Share</mat-hint>
+              </div>
+
+              <div>
+                <button mat-icon-button matTooltip="Send" [matMenuTriggerFor]="sendMenu">
+                  <mat-icon class="edit-button" svgIcon="send"></mat-icon>
+                </button>
+                <mat-hint>Send</mat-hint>
+              </div>
+
+            </div>
+
+            <mat-menu #readComments="matMenu" class="custom-mat-menu">
+              <div>
+                <div *ngFor="let comment of comments" class="comment-unit">
+                  <mat-hint>{{comment.ts | date: 'medium'}}</mat-hint>
+                  <div>{{comment.comment}}</div>
+                </div>
+              </div>
+            </mat-menu>
+
+            <mat-menu #postComment="matMenu" class="custom-mat-menu">
+              <form [formGroup]="commentForm" style="padding: 0 20px" fxLayout="column"
+                (click)="$event.stopPropagation()" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <mat-form-field class="custom-form-field" appearance="outline">
+                  <mat-label>Comment</mat-label>
+                  <textarea matInput type="text" placeholder="Write a comment" formControlName="comment"></textarea>
+                </mat-form-field>
+
+                <button type="button" mat-stroked-button (click)="comment(newsfeed?.objectId)">Comment</button>
+              </form>
+            </mat-menu>
+
+            <mat-menu #shareMenu="matMenu" class="custom-mat-menu">
+              <form [formGroup]="shareForm" style="padding: 0 20px" (click)="$event.stopPropagation()">
+                <p>Share to:</p>
+                <div fxLayout="column" fxLayoutAlign="start center">
+                  <ng-select [items]="myNetwork" class="custom-ng-select" appearance="outline" appendTo="body"
+                    bindValue="uuid" bindLabel="name" [clearable]="true" formControlName="mynetwork"
+                    [notFoundText]="'No Results'" typeToSearchText="Search" placeholder="My Network">
+                  </ng-select>
+
+                  <button type="button" mat-stroked-button (click)="share()">Share</button>
+                </div>
+              </form>
+            </mat-menu>
+
+            <mat-menu #sendMenu="matMenu" class="custom-mat-menu">
+              <form [formGroup]="sendForm" style="padding: 0 20px" (click)="$event.stopPropagation()">
+                <p>Send to:</p>
+                <div fxLayout="column" fxLayoutAlign="start center">
+                  <ng-select [items]="myNetwork" class="custom-ng-select" appearance="outline" appendTo="body"
+                    bindValue="uuid" bindLabel="name" [clearable]="true" formControlName="userid"
+                    [notFoundText]="'No Results'" typeToSearchText="Search" placeholder="Person">
+                  </ng-select>
+
+                  <button type="button" mat-stroked-button (click)="send()">Send</button>
+                </div>
+              </form>
+            </mat-menu>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="newsfeed-card">
+
+        <div *ngFor="let newsfeed of newsfeeds" class="newsfeed">
+          <div class="newsfeed-header" fxLayout="row" fxLayoutAlign="space-between center">
+            <h3>{{newsfeed.headerline}}</h3>
+            <button mat-icon-button *ngIf="newsfeed.entity.editable"
+              (click)="readArticleContest(newsfeed.objectid,newsfeed.type)">
+              <mat-icon class="edit-button">edit</mat-icon>
+            </button>
+          </div>
+          <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start start" fxLayoutGap="10px">
+            <div fxFlex="30" class="newsfeed-entity-card" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center"
+              fxFlexAlign.xs="stretch">
+              <div>
+                <img [src]="getUrl(newsfeed.entity.profilepicture) | secure | async" alt="photo"
+                  *ngIf="newsfeed.entity.profilepicture">
+                <mat-icon *ngIf="!newsfeed.entity.profilepicture">
+                  account_circle
+                </mat-icon>
+              </div>
+              <div fxLayout="column" fxLayoutGap="10px">
+                <div>{{newsfeed?.entity.names}}</div>
+                <div>{{newsfeed?.entity.summary}}</div>
+                <div fxLayoutGap="10px">
+                  <a href="{{newsfeed.entity.sociallinks.facebook}}" target="_blank">
+                    <img src="../../../../assets/facebook.svg" alt="photo" class="social-icon facebook">
+                  </a>
+                  <a href="{{newsfeed.entity.sociallinks.twitter}}" target="_blank">
+                    <img src="../../../../assets/twitter.svg" alt="photo" class="social-icon twitter">
+                  </a>
+                  <a href="{{newsfeed.entity.sociallinks.linkedin}}" target="_blank">
+                    <img src="../../../../assets/linkedin.svg" alt="photo" class="social-icon linkedin">
+                  </a>
+                  <a href="{{newsfeed.entity.sociallinks.instagram}}" target="_blank">
+                    <img src="../../../../assets/insta.svg" alt="photo" class="social-icon insta">
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div fxFlex="60" *ngIf="newsfeed.mainimage" (click)="readArticleContest(newsfeed.objectid,newsfeed.type)"
+              style="cursor: pointer">
+              <quill-view-html [content]="newsfeed.showtext" class="custom-pointer-cursor"
+                (click)="readArticleContest(newsfeed.objectid,newsfeed.type)"></quill-view-html>
+            </div>
+
+            <div fxFlex="70" *ngIf="!newsfeed.mainimage" style="cursor: pointer"
+              (click)="readArticleContest(newsfeed.objectid,newsfeed.type)">
+              <quill-view-html [content]="newsfeed.showtext" class="custom-pointer-cursor"
+                (click)="readArticleContest(newsfeed.objectid,newsfeed.type)"></quill-view-html>
+            </div>
+
+            <div fxFlex="10" *ngIf="newsfeed.mainimage" (click)="readArticleContest(newsfeed.objectid,newsfeed.type)"
+              style="cursor: pointer">
+              <img [src]="getUrl(newsfeed.mainimage) | secure | async" alt="photo" id="photo"
+                style="width: 100%;height: 100%">
+            </div>
+          </div>
+          <div class="newsfeed-footer" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+            <mat-hint>3 likes</mat-hint>
+            <button mat-icon-button [matTooltip]="newsfeed?.entity.is_liked? 'Unlike': 'Like'"
+              (click)="likeUnlike(newsfeed)">
+              <mat-icon class="edit-button" [style.color]="newsfeed?.entity.is_liked? '#3c9394': ''">
+                thumb_up_off_alt
+              </mat-icon>
+            </button>
+            <mat-hint class="comments" [matMenuTriggerFor]="readComments" (click)="getComments(newsfeed?.objectid)">
+              {{newsfeed?.entity.commentcount}} Comments
+            </mat-hint>
+            <button mat-icon-button matTooltip="Comment" [matMenuTriggerFor]="postComment">
+              <mat-icon class="edit-button">comment</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Share" [matMenuTriggerFor]="newsfeedShareMenu">
+              <mat-icon class="edit-button">share</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Send" [matMenuTriggerFor]="newsfeedSendMenu">
+              <mat-icon class="edit-button">send</mat-icon>
+            </button>
+          </div>
+
+          <mat-menu #readComments="matMenu" class="custom-mat-menu">
+            <div>
+              <div *ngFor="let comment of comments" class="comment-unit">
+                <mat-hint>{{comment.ts | date: 'medium'}}</mat-hint>
+                <div>{{comment.comment}}</div>
+              </div>
+            </div>
+          </mat-menu>
+
+          <mat-menu #postComment="matMenu" class="custom-mat-menu">
+            <form [formGroup]="commentForm" fxLayout="column" (click)="$event.stopPropagation()"
+              fxLayoutAlign="start center" fxLayoutGap="10px">
+              <mat-form-field class="custom-form-field" appearance="outline">
+                <mat-label>Comment</mat-label>
+                <textarea matInput type="text" placeholder="Write a comment" formControlName="comment"></textarea>
+              </mat-form-field>
+
+              <button type="button" mat-stroked-button (click)="comment(newsfeed?.objectId)">Comment</button>
+            </form>
+          </mat-menu>
+
+          <mat-menu #newsfeedShareMenu="matMenu" class="custom-mat-menu">
+            <form [formGroup]="newsfeedShareForm" (click)="$event.stopPropagation()">
+              <p>Share to:</p>
+              <div fxLayout="column" fxLayoutAlign="start center">
+                <ng-select [items]="myNetwork" class="custom-ng-select" appearance="outline" appendTo="body"
+                  bindValue="uuid" bindLabel="name" [clearable]="true" formControlName="mynetwork"
+                  [notFoundText]="'No Results'" typeToSearchText="Search" placeholder="My Network">
+                </ng-select>
+
+                <button type="button" mat-stroked-button (click)="shareNewsfeed()">Share</button>
+              </div>
+            </form>
+          </mat-menu>
+
+          <mat-menu #newsfeedSendMenu="matMenu" class="custom-mat-menu">
+            <form [formGroup]="sendForm" (click)="$event.stopPropagation()">
+              <p>Send to:</p>
+              <div fxLayout="column" fxLayoutAlign="start center">
+                <ng-select [items]="myNetwork" class="custom-ng-select" appearance="outline" appendTo="body"
+                  bindValue="uuid" bindLabel="name" [clearable]="true" formControlName="userid"
+                  [notFoundText]="'No Results'" typeToSearchText="Search" placeholder="Person">
+                </ng-select>
+
+                <button type="button" mat-stroked-button (click)="send()">Send</button>
+              </div>
+            </form>
+          </mat-menu>
+
+        </div>
+      </div> -->
+
+    </div>
+
+    <div class="rightcolumn" [hidden]="isMobile && selectedTab !='content'">
+
+      <div id="createcontent" class="create-content">
+
+        <div class="newpost-card">
+
+          <div class="start-test">
+            <span>Create Content</span>
+          </div>
+
+          <div class="action">
+            <button class="article-button" (click)="createArticle()">Article</button>
+          </div>
+
+          <div class="action">
+            <button class="contest-button" (click)="createContest()">Contest</button>
+          </div>
+
+          <div class="action">
+            <button class="project-button">Project</button>
+          </div>
+        </div>
+
+      </div>
+
+
+      <mat-tab-group *ngIf="contests.length" mat-align-tabs="center">
+        <mat-tab label="Contests">
+          <ol class="contest">
+            <li *ngFor="let contest of contests">
+              <h4 class="lable">{{contest.title}}</h4>
+              <div class="text">{{contest.abstract}}</div>
+            </li>
+          </ol>
+        </mat-tab>
+
+        <mat-tab label="Projects">
+
+          <ol class="contest">
+            <li *ngFor="let project of projects">
+              <h4 class="lable">{{project.title}}</h4>
+              <div class="text">{{project.abstract}}</div>
+            </li>
+          </ol>
+        </mat-tab>
+
+        <mat-tab label="Jobs">
+          <ol class="contest">
+            <li *ngFor="let job of jobs">
+              <h4 class="lable">{{job.title}}</h4>
+              <div class="text">{{job.abstract}}</div>
+            </li>
+          </ol>
+        </mat-tab>
+      </mat-tab-group>
+
+      <div class="poeple" *ngIf="people.length">
+
+        <div fxLayout="row">
+          <div class="icon-container">
+            <mat-icon svgIcon="crown"></mat-icon>
+          </div>
+          <h3 class="people-header">People / Experts</h3>
+        </div>
+
+
+        <div class="widget">
+          <div class="person" *ngFor="let person of people">{{person.userid}}</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- <div class="footer">
+  <div class="text">A-GORA GRAPH LTD © Copywrite 2018</div>
+</div> -->
+
+
+<mat-menu #shareMenu="matMenu" class="custom-mat-menu">
+  <form [formGroup]="shareForm" (click)="$event.stopPropagation()">
+    <p>Share to:</p>
+    <div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <ng-select [items]="myShareSets" class="custom-ng-select" appearance="outline" appendTo="body" bindValue="value"
+        bindLabel="name" [clearable]="true" formControlName="person" [notFoundText]="'No Results'"
+        typeToSearchText="Search" placeholder="Person">
+      </ng-select>
+
+      <ng-select [items]="myNetwork" class="custom-ng-select" appearance="outline" appendTo="body" bindValue="uuid"
+        bindLabel="name" [clearable]="true" formControlName="mynetwork" [notFoundText]="'No Results'"
+        typeToSearchText="Search" placeholder="My Network">
+      </ng-select>
+
+      <button type="button" mat-stroked-button (click)="share()">Share</button>
+    </div>
+  </form>
+</mat-menu>
+
+<mat-menu #sendMenu="matMenu" class="custom-mat-menu">
+  <form [formGroup]="messageForm" (click)="$event.stopPropagation()">
+    <p>Send to:</p>
+    <div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <mat-form-field class="custom-form-field" appearance="outline">
+        <mat-label>Subject</mat-label>
+        <input matInput placeholder="Subject" formControlName="subject">
+      </mat-form-field>
+
+      <mat-form-field class="custom-form-field" appearance="outline">
+        <mat-label>Mesage</mat-label>
+        <textarea matInput placeholder="Message" formControlName="message"></textarea>
+      </mat-form-field>
+
+      <button type="button" mat-stroked-button (click)="sendMessage()">Send</button>
+    </div>
+  </form>
+</mat-menu>
+
+
+<nav class="bottom-nav">
+  <a class="bottom-nav__destination bottom-nav__destination--active" (click)="newsFeed()">
+    <mat-icon svgIcon="polls"></mat-icon>
+    <span class="bottom-nav__label">News Feed</span>
+  </a>
+
+  <a class="bottom-nav__destination" (click)="createContent()">
+    <div class="btm_nav_icon">
+      <mat-icon>note_alt</mat-icon>
+      <span class="bottom-nav__label">Content</span>
+    </div>
+  </a>
+
+  <a class="bottom-nav__destination" (click)="profile()">
+    <mat-icon svgIcon="user"></mat-icon>
+    <span class="bottom-nav__label">Profile</span>
+  </a>
+</nav>

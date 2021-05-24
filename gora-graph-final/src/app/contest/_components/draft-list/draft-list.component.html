@@ -1,0 +1,36 @@
+<div style="text-align: end">
+  <button mat-icon-button (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-selection-list [multiple]="false">
+  <mat-list-option (click)="select(0)">
+    <mat-icon mat-list-icon>add</mat-icon>
+    <div mat-line>Start new Contest</div>
+  </mat-list-option>
+</mat-selection-list>
+<!--  <mat-divider></mat-divider>-->
+<h2>Drafts availabe but not published:</h2>
+<mat-divider></mat-divider>
+<div fxLayout="column">
+  <div fxLayout="row" *ngFor="let draft of drafts">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" fxFlex="90" class="draft-row"
+      (click)="select(draft.draftid)">
+      <div>
+        <mat-icon>edit</mat-icon>
+      </div>
+
+      <div fxLayout="column">
+        <h3 style="margin: 0">{{draft.title}}</h3>
+        <div>{{draft.ts | date: 'medium'}}</div>
+      </div>
+    </div>
+
+    <div class="draft-row" (click)="deleteDraft(draft.draftid)">
+      <button mat-icon-button disableRipple>
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
